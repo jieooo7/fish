@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+		<title>开发者信息提交</title>
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="./css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="./css/margin.css"/>
+
+		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="./css/bootstrap-theme.min.css"/>
+
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="./js/jquery-3.1.0.min.js"></script>
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="./js/bootstrap.min.js"></script>
+	
+	</head>
+
+<body>
+	
+
+		<!--.container 类用于固定宽度并支持响应式布局的容器。由于padding属性,和fluid不能嵌套使用-->
+		<div class="container">
+			<a href="#" class=" btn_top_margin btn btn-primary btn-lg active btn-block" role="button">查询</a>
+
+		</div>
+
+		<div class="container top_margin" >
+		  <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/add_dev}" th:object="${dev_index}" >
+
+		  	<div class="form-group">
+			    <label class="col-sm-2 control-label">姓名</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail1" placeholder="姓名" th:field="*{name}"/>
+			    </div>
+			</div>
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">电话</label>
+			    <div class="col-sm-10">
+			      <input type="number" class="form-control" id="inputEmail2" placeholder="电话" th:field="*{tel}"/>
+			    </div>
+			  </div>
+
+
+			<div class="form-group">
+			<label class="col-sm-2 control-label align_ct">性别</label>
+			 <div class="col-sm-10 align_ct" >
+			  <div class="radio radio-inline align_ct">
+			  <label class="col-sm-4 control-label">
+			    <input type="radio" name="sex" id="optionsRadios1" value="1" checked="checked"/>
+			    男
+			  </label>
+			</div>
+
+			<div class="radio radio-inline align_ct">
+			  <label class="col-sm-4 control-label">
+			    <input type="radio" name="sex" id="optionsRadios2" value="0"/>
+			    女
+			  </label>
+			</div>
+			 </div>
+			</div>
+
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">qq</label>
+			    <div class="col-sm-10">
+			      <input type="number" class="form-control" id="inputEmail3" placeholder="qq" th:field="*{qq}"/>
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">微信</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail4" placeholder="微信" th:field="*{weixin}"/>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">邮箱</label>
+			    <div class="col-sm-10">
+			      <input type="email" class="form-control" id="inputEmai5" placeholder="邮箱" th:field="*{email}"/>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">微博</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail6" placeholder="微博" th:field="*{weibo}"/>
+			    </div>
+			  </div>
+
+			  
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">技能</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail7" placeholder="技能" th:field="*{skill}"/>
+			    </div>
+			  </div>
+
+
+			  
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">工作经验</label>
+			    <div class="col-sm-10">
+			      <input type="number" class="form-control" id="inputEmail8" placeholder="工作经验" th:field="*{experice}"/>
+			    </div>
+			  </div>
+
+
+			  
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">所在公司</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail9" placeholder="所在公司" th:field="*{company}"/>
+			    </div>
+			  </div>
+
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">职位</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail20" placeholder="职位" th:field="*{job}"/>
+			    </div>
+			  </div>
+
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">所在城市</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail11" placeholder="所在城市" th:field="*{city}"/>
+			    </div>
+			  </div>
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">其他信息</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="inputEmail13" placeholder="其他信息" th:field="*{other}"/>
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      <button type="submit" class="btn btn-default">submit</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		<!-- .container-fluid 类用于 100% 宽度，占据全部视口（viewport）的容器。-->
+
+	</body>
+</html>
