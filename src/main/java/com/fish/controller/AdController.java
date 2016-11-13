@@ -30,7 +30,7 @@ public class AdController {
     private ImageRepository imageRepository;
 
     @RequestMapping("/api/ads")
-    public String greeting() {
+    public String ad() {
 
         insertAds();
         return "ok";
