@@ -51,6 +51,10 @@ task wrapper(type: Wrapper) {
 }
 
 
+springBoot {
+    mainClass = "com.fish.Application"
+}
+
 //优先级访问,
 //private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
 //    "classpath:/META-INF/resources/", "classpath:/resources/",

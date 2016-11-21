@@ -1,7 +1,6 @@
 package com.fish.jpa.ad;
 
-import com.fish.model.ad.Ad;
-import com.fish.model.ad.Images;
+import com.fish.model.entity.ad.Images;
 
 import org.springframework.data.repository.CrudRepository;
 

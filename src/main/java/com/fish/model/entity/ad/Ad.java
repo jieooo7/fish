@@ -1,11 +1,10 @@
-package com.fish.model.ad;
+package com.fish.model.entity.ad;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -2,19 +2,14 @@ package com.fish.controller;
 
 import com.fish.jpa.ad.AdRepository;
 import com.fish.jpa.ad.ImageRepository;
-import com.fish.model.ad.Ad;
-import com.fish.model.ad.Images;
-import com.fish.model.temple.Greeting;
+import com.fish.model.entity.ad.Ad;
+import com.fish.model.entity.ad.Images;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
-import java.sql.Timestamp;
 
 /**
  * Created by thy on 16-11-3.

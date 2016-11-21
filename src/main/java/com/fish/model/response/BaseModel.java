@@ -1,4 +1,4 @@
-package com.fish.model;
+package com.fish.model.response;
 
 /**
  * Created by thy on 16-11-7.

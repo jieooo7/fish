@@ -1,4 +1,4 @@
-package com.fish.model.ad;
+package com.fish.model.entity.ad;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

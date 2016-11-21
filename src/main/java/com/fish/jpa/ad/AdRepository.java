@@ -1,7 +1,6 @@
 package com.fish.jpa.ad;
 
-import com.fish.model.ad.Ad;
-import com.fish.model.temple.Customer;
+import com.fish.model.entity.ad.Ad;
 
 import org.springframework.data.repository.CrudRepository;
 
