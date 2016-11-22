@@ -55,7 +55,7 @@ public class LoginController {
 //        HttpHeaders
         try {
             UserInfo user=new UserInfo();
-            String code=CodeGenetate.create();
+            String code=CodeGenetate.getInstance().create();
             user.setCode(code);
             user.setName(name);
             user.setPasswd(MD5.getMD5(pass+code));//密码配合code进行MD5处理

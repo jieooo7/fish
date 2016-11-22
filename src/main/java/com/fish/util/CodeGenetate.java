@@ -8,7 +8,27 @@ import java.util.Random;
 
 public class CodeGenetate {
 
-    public static String create() {
+//    private static CodeGenetate instance = null;
+    private CodeGenetate() {
+    }
+
+//    private static synchronized void syncInit() {
+//        if (instance == null) {
+//            instance = new CodeGenetate();
+//        }
+//    }
+    private static class InstanceHolder{
+        private static final CodeGenetate instance = new CodeGenetate();
+    }
+
+    public static CodeGenetate getInstance() {
+//        if (instance == null) {
+//            syncInit();
+//        }
+        return InstanceHolder.instance;
+    }
+
+    public String create() {
 
         Random random = new Random();
 
