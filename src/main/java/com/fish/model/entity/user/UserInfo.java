@@ -7,43 +7,65 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
  * Created by thy on 16-11-18.
  */
 @Entity
-@Table( name = "user_info")
+@Table(name = "user_info")
 public class UserInfo {
 
     private int id;
 
-    private String name="";
+    private String name = "";
 
-    private String nick_name="";
+    private String nick_name = "";
 
-    private String email="";
+    private String email = "";
 
-    private String tel="";
+    private String tel = "";
 
-    private String passwd="";
+    private String passwd = "";
 
-    private String id_card="";
+    private String id_card = "";
 
     private Timestamp register_time;
 
     private Timestamp login_time;
 
-    private byte sex=-1;
+    private byte sex = -1;
 
-    private String code="";
+    private String code = "";
+    private String head_pic = "";
+
+    private Assets assets;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    public Assets getAssets() {
+        return assets;
+    }
+
+    public void setAssets(Assets assets) {
+        this.assets = assets;
+    }
+
+    public String getHead_pic() {
+        return head_pic;
+    }
+
+    public void setHead_pic(String head_pic) {
+        this.head_pic = head_pic;
+    }
 
     public UserInfo() {
     }
 
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -51,6 +73,7 @@ public class UserInfo {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }

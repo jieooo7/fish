@@ -46,7 +46,6 @@ public class Videos {
     public void setId(int id) {
         this.id = id;
     }
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",nullable=false)
     public String getUrl() {
         return url;
     }

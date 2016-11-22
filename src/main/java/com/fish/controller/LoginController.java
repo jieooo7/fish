@@ -60,13 +60,14 @@ public class LoginController {
             user.setName(name);
             user.setPasswd(MD5.getMD5(pass+code));//密码配合code进行MD5处理
             user.setTel(tel);
-            Date date = new Date();//获得系统时间.
-            String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
-            user.setRegister_time(Timestamp.valueOf(nowTime));
+//            Date date = new Date();//获得系统时间.
+//            String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
+//            user.setRegister_time(Timestamp.valueOf(nowTime));
+            user.setRegister_time(new Timestamp(new java.util.Date().getTime()));
             user.setLogin_time(new Timestamp(new java.util.Date().getTime()));
             user.setEmail(email);
             repository.save(user);
-            log.debug("时间戳:"+new Date().getTime());
+            log.debug("时间戳:"+new Timestamp(new java.util.Date().getTime()));
             return new BaseModel();
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();

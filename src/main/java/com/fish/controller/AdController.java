@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
+
 /**
  * Created by thy on 16-11-3.
  */
@@ -39,10 +41,13 @@ public class AdController {
         ad.setTitle("海飞丝");
         ad.setContent("啊呀呀");
 //        ad.setEnd_time(new Timestamp(new Date().getTime()));
-
+        ad.setStart_time(new Timestamp(new java.util.Date().getTime()));
+        ad.setPublish_time(new Timestamp(new java.util.Date().getTime()));
+        ad.setEnd_time(new Timestamp(new java.util.Date().getTime()));
         Images images=new Images();
         images.setUrl("./url/jpg12.jpg");
         images.setAd_id(ad);
+        images.setTime(new Timestamp(new java.util.Date().getTime()));
         repository.save(ad);
         imageRepository.save(images);
 

@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 public class Images {
 
-
+//    在Hibernate中可以利用@DynamicInsert和@DynamicUpdate生成动态SQL语句，即在插入和修改数据的时候,语句中只包括要插入或者修改的字段。
     private int id;
 
     private String url;
@@ -53,7 +53,7 @@ public class Images {
     public void setUrl(String url) {
         this.url = url;
     }
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",nullable=false)
+//    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",nullable=false)
     public Timestamp getTime() {
         return time;
     }
@@ -62,7 +62,7 @@ public class Images {
         this.time = time;
     }
     @ManyToOne
-    @JoinColumn(name = "ad_id", referencedColumnName = "id")
+    @JoinColumn(name = "ad_id", referencedColumnName = "id")//外键参考,参考Ad表的id
     public Ad getAd_id() {
         return ad_id;
     }
