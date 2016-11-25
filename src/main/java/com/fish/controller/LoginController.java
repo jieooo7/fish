@@ -69,6 +69,8 @@ public class LoginController {
             repository.save(user);
             log.debug("时间戳:"+new Timestamp(new java.util.Date().getTime()));
             return new BaseModel();
+
+
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             return new BaseModel(ErrorCode.DATABASEERROR,e.getMessage(),null);
