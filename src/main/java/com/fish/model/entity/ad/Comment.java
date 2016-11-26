@@ -28,7 +28,9 @@ public class Comment {
 
     public Comment() {
     }
-
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy= GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -36,9 +38,7 @@ public class Comment {
     public void setId(int id) {
         this.id = id;
     }
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+
     public int getAd_id() {
         return ad_id;
     }

@@ -1,15 +1,26 @@
 package com.fish;
 
+import org.springframework.cache.Cache;
+import net.sf.ehcache.management.CacheManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ErrorPage;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EnableCaching
 @SpringBootApplication
 //@ConfigurationProperties(prefix = "app",locations = "classpath:config/application.properties")
 public class Application {
@@ -35,6 +46,19 @@ public class Application {
             container.addErrorPages(error401Page, error404Page, error500Page);
         });
     }
+
+
+//    @Bean
+//    public CacheManager cacheManager() {
+//        SimpleCacheManager cacheManager = new SimpleCacheManager();
+//        List<Cache> caches = new ArrayList<Cache>();
+//        caches.add(new ConcurrentMapCache("getActionsBycasId"));
+//        cacheManager.setCaches(caches);
+//        return cacheManager;
+//    }
+
+//    @Autowired
+//    private CacheManager cacheManager;
 
 //commandline 在SpringApplication.run方法之前运行
 //    @Bean

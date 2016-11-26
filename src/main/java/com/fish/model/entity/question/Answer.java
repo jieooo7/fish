@@ -21,7 +21,7 @@ public class Answer {
     public Answer() {
     }
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;

@@ -1,10 +1,13 @@
 package com.fish.model.entity.ad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +34,7 @@ public class Videos {
     private Timestamp time;
 
 
-
+    @JsonIgnore
     private Ad ad_id;
 
     public Videos() {
@@ -61,7 +64,7 @@ public class Videos {
     public void setTime(Timestamp time) {
         this.time = time;
     }
-    @ManyToOne
+    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name = "ad_id", referencedColumnName = "id")
     public Ad getAd_id() {
         return ad_id;

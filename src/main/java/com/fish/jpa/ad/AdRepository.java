@@ -2,6 +2,8 @@ package com.fish.jpa.ad;
 
 import com.fish.model.entity.ad.Ad;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -12,10 +14,10 @@ import java.util.List;
 /**
  * Created by thy on 16-11-3.
  */
-
+@CacheConfig(cacheNames = "ads")
 public interface AdRepository extends PagingAndSortingRepository<Ad, Long> {
-
-    Page<Ad> findById(Pageable pageable);
+//    @Cacheable(key = "#pwId", value = { "pwId" })
+    Page<Ad> findAll(Pageable pageable);
 
 //    Sort sort = new Sort(Direction.DESC, "id");
 //    Pageable pageable = new PageRequest(page, size, sort);

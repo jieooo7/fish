@@ -42,8 +42,10 @@ public class Ad {
     private int video_num=0;
     private int image_num=0;
     private int comment_num=0;
-    private List<com.fish.model.entity.ad.Images> Images;
-    private List<com.fish.model.entity.ad.Videos> Videos;
+    private List<Images> Images;
+    private List<Videos> Videos;
+
+//    @Transient 用于忽略某个属性，而不对该属性进行持久化操作
 
     private int read_num=0;
     private int bonus=0;
@@ -195,24 +197,24 @@ public class Ad {
     }
 
 
-    @OneToMany(cascade= CascadeType.ALL, fetch= FetchType.LAZY, mappedBy="ad")
-    @OrderBy(value= "id ASC")
-    public List<com.fish.model.entity.ad.Images> getImages() {
+    @OneToMany(cascade= CascadeType.ALL, fetch= FetchType.LAZY, mappedBy="ad_id")
+//    @OrderBy(value= "id ASC")
+    public List<Images> getImages() {
         return Images;
     }
 
-    public void setImages(List<com.fish.model.entity.ad.Images> images) {
+    public void setImages(List<Images> images) {
         Images = images;
     }
 
 //    有了mappedby不能也不该在此再定义@joincolumn）
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="ad")
-    @OrderBy(value= "id ASC")
-    public List<com.fish.model.entity.ad.Videos> getVideos() {
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="ad_id")
+//    @OrderBy(value= "id ASC")
+    public List<Videos> getVideos() {
         return Videos;
     }
 
-    public void setVideos(List<com.fish.model.entity.ad.Videos> videos) {
+    public void setVideos(List<Videos> videos) {
         Videos = videos;
     }
 
@@ -220,3 +222,19 @@ public class Ad {
     //    columnDefinition="varchar(128) not null"
 }
 
+//@OneToMany(mapped=“由One的一方指向Many的一方，并且，这个属性应该等于Many的一方中含有One类的属性的属性名，否则会出错啦 ”)
+//如：
+//        在ClassPO中：
+//
+//@OneToMany(targetEntity=StudentPO.class,mappedBy="myclass",cascade=javax.persistence.CascadeType.ALL)
+//@Cascade(CascadeType.ALL)
+//private Set<StudentPO>studentSet;
+//
+//        在StudentPOst中：
+//
+//@ManyToOne(targetEntity=ClassPO.class,cascade={CascadeType.ALL})
+//private ClassPO myclass;
+//
+//        其中ClassPO中的mappedBy=  StudentPOst中的 myclass;
+//
+//        2、如果我们没有填mapped这个属性，则会产生三张表，一张表是用来管理这两张表的

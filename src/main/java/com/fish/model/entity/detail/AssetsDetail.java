@@ -31,7 +31,7 @@ public class AssetsDetail {
     public AssetsDetail() {
     }
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;

@@ -24,7 +24,7 @@ public class CardBank {
     public CardBank() {
     }
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;

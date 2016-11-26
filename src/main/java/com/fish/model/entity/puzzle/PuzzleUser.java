@@ -33,7 +33,7 @@ public class PuzzleUser {
         this.create_time = create_time;
     }
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
