@@ -33,7 +33,7 @@ public class LoginController {
 
     @Autowired
     private UserRepository repository;
-
+//    value="/add_dev", method= RequestMethod.POST
     @RequestMapping("/api/login")
     public String login() {
 //        HttpServletRequest request;

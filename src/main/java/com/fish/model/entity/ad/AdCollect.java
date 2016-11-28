@@ -15,8 +15,10 @@ import javax.persistence.Table;
 public class AdCollect {
 
     private int id;
-    private int user_id;
-    private int ad_id;
+    @Column(name="user_id")
+    private int userId;
+    @Column(name="ad_id")
+    private int adId;
 
     public AdCollect() {
     }
@@ -31,19 +33,20 @@ public class AdCollect {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getAd_id() {
-        return ad_id;
+    public int getAdId() {
+        return adId;
     }
 
-    public void setAd_id(int ad_id) {
-        this.ad_id = ad_id;
+    public void setAdId(int adId) {
+        this.adId = adId;
     }
 }

@@ -19,6 +19,8 @@ public interface AdRepository extends PagingAndSortingRepository<Ad, Long> {
 //    @Cacheable(key = "#pwId", value = { "pwId" })
     Page<Ad> findAll(Pageable pageable);
 
+
+//    需要注意的是当一个支持缓存的方法在对象内部被调用时是不会触发缓存功能的
 //    Sort sort = new Sort(Direction.DESC, "id");
 //    Pageable pageable = new PageRequest(page, size, sort);
 //    return blogRepository.findAll(pageable);

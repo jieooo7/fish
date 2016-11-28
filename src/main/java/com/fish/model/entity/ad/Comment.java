@@ -1,6 +1,10 @@
 package com.fish.model.entity.ad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fish.model.response.model.CommentModel;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by thy on 16-11-22.
@@ -17,17 +22,26 @@ import javax.persistence.Table;
 public class Comment {
 
     private int id;
-    private int ad_id;
-    private int parent_id;
+    private int adId=-1;
+    private int parentId=-1;
     private int like_num=0;
-    private int author_id;
+    private int author_id=-1;
+    @JsonIgnore
+    private int sequence=0;
+    @JsonIgnore
     private String url="";
     private String content="";
+    private String authorName="";
+    private String parentName="";
+    private String headUrl="";
     private Timestamp time;
 
 
     public Comment() {
     }
+
+
+
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -38,21 +52,37 @@ public class Comment {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getAd_id() {
-        return ad_id;
+    @Column(name="ad_id")
+    public int getAdId() {
+        return adId;
+    }
+    @Column(name="parent_name")
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setAd_id(int ad_id) {
-        this.ad_id = ad_id;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public int getSequence() {
+        return sequence;
     }
 
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public void setAdId(int adId) {
+        this.adId = adId;
+    }
+    @Column(name="parent_id")
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public int getLike_num() {
@@ -93,5 +123,21 @@ public class Comment {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+    @Column(name="author_name")
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+    @Column(name="head_url")
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
     }
 }

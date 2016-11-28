@@ -18,8 +18,10 @@ public class PuzzleUser {
 
 
     private int id;
-    private int user_id;
-    private int card_id;
+    @Column(name="user_id")
+    private int userId;
+    @Column(name="card_id")
+    private int cardId;
     private Timestamp create_time;
 
     public PuzzleUser() {
@@ -43,19 +45,19 @@ public class PuzzleUser {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getCard_id() {
-        return card_id;
+    public int getCardId() {
+        return cardId;
     }
 
-    public void setCard_id(int card_id) {
-        this.card_id = card_id;
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 }

@@ -27,10 +27,11 @@ import javax.persistence.Table;
 public class Images {
 
 //    在Hibernate中可以利用@DynamicInsert和@DynamicUpdate生成动态SQL语句，即在插入和修改数据的时候,语句中只包括要插入或者修改的字段。
+    @JsonIgnore
     private int id;
 
     private String url;
-
+    @JsonIgnore
     private Timestamp time;
     @JsonIgnore
     private Ad ad_id;

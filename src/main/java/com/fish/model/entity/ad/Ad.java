@@ -29,6 +29,7 @@ import javax.persistence.Table;
 public class Ad {
 
 
+
     private int id;
 
     private String title="";
@@ -55,6 +56,12 @@ public class Ad {
     private byte catalog=0;
 
     private String keyword="";
+    private String descripe="";
+
+
+    private String mark="";//标签
+    private String author_name="";//作者名字
+    private String author_pic="";//作者头像
 
 
     public int getRead_num() {
@@ -216,6 +223,38 @@ public class Ad {
 
     public void setVideos(List<Videos> videos) {
         Videos = videos;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
+    }
+
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
+    }
+
+    public String getAuthor_pic() {
+        return author_pic;
+    }
+
+    public void setAuthor_pic(String author_pic) {
+        this.author_pic = author_pic;
+    }
+
+    public String getDescripe() {
+        return descripe;
+    }
+
+    public void setDescripe(String descripe) {
+        this.descripe = descripe;
     }
 
 

@@ -26,11 +26,11 @@ import javax.persistence.Table;
 @DynamicUpdate
 public class Videos {
 
-
+    @JsonIgnore
     private int id;
 
     private String url;
-
+    @JsonIgnore
     private Timestamp time;
 
 
