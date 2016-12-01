@@ -17,11 +17,15 @@ import javax.persistence.Table;
 public class PuzzleCard {
 
     private int id;
-    private int ad_id;
-    private String name="";
-    private String card_desc="";
-    private String pic_url="";
-    private String pic_total="";
+    private int adId;
+    private int lava;//剩余多少张
+    private byte seq;//序号
+    private String name="";//广告名字
+    private String card_desc="";//拼图的描述
+    private String card_name="";//比如a1
+    private String pic_url="";//大图的地址
+    private String pic_total="";//总共数量
+
     private Timestamp create_time;
 
     public PuzzleCard() {
@@ -36,16 +40,40 @@ public class PuzzleCard {
         return id;
     }
 
+    public byte getSeq() {
+        return seq;
+    }
+
+    public void setSeq(byte seq) {
+        this.seq = seq;
+    }
+
+    public int getLava() {
+        return lava;
+    }
+
+    public String getCard_name() {
+        return card_name;
+    }
+
+    public void setCard_name(String card_name) {
+        this.card_name = card_name;
+    }
+
+    public void setLava(int lava) {
+        this.lava = lava;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getAd_id() {
-        return ad_id;
+    @Column(name = "ad_id")
+    public int getAdId() {
+        return adId;
     }
 
-    public void setAd_id(int ad_id) {
-        this.ad_id = ad_id;
+    public void setAdId(int adId) {
+        this.adId = adId;
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package com.fish.model.response.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -11,11 +12,13 @@ public class PuzzleModel {
     private String title;
     private String name;
     private String pic;
-    private String total;
+    private int total;
+    private int have;
     private String tips;
     private String time;
     private String total_money;
     private String top_money;
+    private String valuation;
 
     private List<Puzzle> puzzles;
 
@@ -23,6 +26,13 @@ public class PuzzleModel {
     public PuzzleModel() {
     }
 
+    public int getHave() {
+        return have;
+    }
+
+    public void setHave(int have) {
+        this.have = have;
+    }
 
     public List<Puzzle> getPuzzles() {
         return puzzles;
@@ -56,11 +66,11 @@ public class PuzzleModel {
         this.pic = pic;
     }
 
-    public String getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
@@ -96,11 +106,29 @@ public class PuzzleModel {
         this.top_money = top_money;
     }
 
+
+    public String getValuation() {
+        return valuation;
+    }
+
+    public void setValuation(String valuation) {
+        this.valuation = valuation;
+    }
+
     public class Puzzle{
         private String name;
-        private String no;
+        private int no;
+        private int seq;
 
         public Puzzle() {
+        }
+
+        public int getSeq() {
+            return seq;
+        }
+
+        public void setSeq(int seq) {
+            this.seq = seq;
         }
 
         public String getName() {
@@ -111,11 +139,11 @@ public class PuzzleModel {
             this.name = name;
         }
 
-        public String getNo() {
+        public int getNo() {
             return no;
         }
 
-        public void setNo(String no) {
+        public void setNo(int no) {
             this.no = no;
         }
     }

@@ -16,8 +16,9 @@ public class Question {
 
 
     private int id;
-    private int ad_id;
-    private int right_answer;
+    private int adId;
+    private String right_answer;
+    private String answer;
     private String title;
 
     public Question() {
@@ -32,21 +33,29 @@ public class Question {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getAd_id() {
-        return ad_id;
+    @Column(name = "ad_id")
+    public int getAdId() {
+        return adId;
     }
 
-    public void setAd_id(int ad_id) {
-        this.ad_id = ad_id;
+    public void setAdId(int adId) {
+        this.adId = adId;
     }
 
-    public int getRight_answer() {
+    public String getRight_answer() {
         return right_answer;
     }
 
-    public void setRight_answer(int right_answer) {
+    public void setRight_answer(String right_answer) {
         this.right_answer = right_answer;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public String getTitle() {

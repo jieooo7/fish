@@ -18,6 +18,7 @@ import java.util.List;
 public interface AdRepository extends PagingAndSortingRepository<Ad, Long> {
 //    @Cacheable(key = "#pwId", value = { "pwId" })
     Page<Ad> findAll(Pageable pageable);
+    Ad findById(int id);
 
 
 //    需要注意的是当一个支持缓存的方法在对象内部被调用时是不会触发缓存功能的

@@ -22,10 +22,17 @@ import javax.persistence.Table;
 public class AssetsDetail {
 
     private int id;
-    private UserInfo userInfo;
-    private Ad ad;
+    private int userInfo;
+    private int ad;
     private int can_get_money=0;
-    private Timestamp the_time;
+    private Timestamp the_time;//周期
+    private Timestamp start_time;//开始时间
+    private Timestamp end_time;//结束时间
+    private String name="";
+    private String pic_url="";
+    private int finish=0;
+    private int valuation=0;
+
 
 
     public AssetsDetail() {
@@ -40,22 +47,22 @@ public class AssetsDetail {
     public void setId(int id) {
         this.id = id;
     }
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public UserInfo getUserInfo() {
+//    @ManyToOne
+    @Column(name = "user_id")
+    public int getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
+    public void setUserInfo(int userInfo) {
         this.userInfo = userInfo;
     }
-    @ManyToOne
-    @JoinColumn(name = "ad_id", referencedColumnName = "id")
-    public Ad getAd() {
+//    @ManyToOne
+//    @JoinColumn(name = "ad_id", referencedColumnName = "id")
+    public int getAd() {
         return ad;
     }
 
-    public void setAd(Ad ad) {
+    public void setAd(int ad) {
         this.ad = ad;
     }
 
@@ -73,5 +80,53 @@ public class AssetsDetail {
 
     public void setThe_time(Timestamp the_time) {
         this.the_time = the_time;
+    }
+
+    public Timestamp getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(Timestamp start_time) {
+        this.start_time = start_time;
+    }
+
+    public Timestamp getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Timestamp end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getFinish() {
+        return finish;
+    }
+
+    public void setFinish(int finish) {
+        this.finish = finish;
+    }
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
+
+    public int getValuation() {
+        return valuation;
+    }
+
+    public void setValuation(int valuation) {
+        this.valuation = valuation;
     }
 }

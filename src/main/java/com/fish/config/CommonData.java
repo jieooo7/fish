@@ -8,6 +8,7 @@ public class CommonData {
     public final static String ENCRYPT_KEY="";//c+s+u  切换大小写
     public final static long EXPIRETIME=180L;
 
+
 }
 //Alter+Enter    导一个包
 //        Alt+Insert    快速生成Getter/Setter，tostring，构造函数

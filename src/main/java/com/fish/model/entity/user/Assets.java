@@ -24,7 +24,7 @@ public class Assets {
     }
     @Id
     @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getUser_id() {
         return user_id;
     }

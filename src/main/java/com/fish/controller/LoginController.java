@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,13 +36,35 @@ public class LoginController {
     private UserRepository repository;
 //    value="/add_dev", method= RequestMethod.POST
     @RequestMapping("/api/login")
-    public String login() {
+    public BaseModel<UserInfo> login(@RequestParam(value = "tel", defaultValue = "") String tel,
+                        @RequestParam(value = "passwd", defaultValue = "") String passwd,
+                        @RequestParam(value = "code", defaultValue = "") String code) {
 //        HttpServletRequest request;
 //        HttpServletResponse response;
 //        HttpHeaders
-        stringRedisTemplate.opsForValue().set("aaa", "111");
-        stringRedisTemplate.expire("aaa", 180L, TimeUnit.SECONDS);
-        return stringRedisTemplate.opsForValue().get("aaa");
+        BaseModel<UserInfo> baseModel=new BaseModel<UserInfo>();
+        stringRedisTemplate.opsForValue().set(tel+"session", "111");
+        stringRedisTemplate.expire("aaa", 1800L, TimeUnit.SECONDS);
+        UserInfo userInfo=repository.findByTel("tel");
+//        if(userInfo!=null&&!userInfo.getPasswd().equals(MD5.getMD5(passwd+userInfo.getCode()))){
+//            baseModel.setErrorCode(ErrorCode.PASSWD_ERROR);
+//            baseModel.setMsg("账号或密码错误");
+//            return baseModel;
+//        }else{
+//            baseModel.setErrorCode(ErrorCode.OK);
+//            baseModel.setMsg("");
+//            baseModel.setData(userInfo);
+//            return baseModel;
+//
+//        }
+
+        baseModel.setErrorCode(ErrorCode.OK);
+        baseModel.setMsg("");
+        baseModel.setData(userInfo);
+        return baseModel;
+
+
+
     }
 
 
@@ -81,6 +104,7 @@ public class LoginController {
 
 
     @RequestMapping("/api/forgotPass")
+//    @Scheduled
     public String forgotPass() {
 //        HttpServletRequest request;
 //        HttpServletResponse response;

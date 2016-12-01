@@ -6,5 +6,8 @@ package com.fish.config;
 
 public class ErrorCode {
 
-    public static int DATABASEERROR=1001;
+
+    public final static int OK=0;
+    public final static int DATABASEERROR=1001;
+    public final static int PASSWD_ERROR=1002;
 }

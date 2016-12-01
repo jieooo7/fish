@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by thy on 16-11-18.
@@ -22,7 +23,6 @@ public class UserInfo {
 
     private String name = "";
 
-    private String nick_name = "";
 
     private String email = "";
 
@@ -41,11 +41,25 @@ public class UserInfo {
     private String code = "";
     private String head_pic = "";
 
+
+    private String nick_name;
+
+    private String auth_key;
+
+
     private Assets assets;
     @OneToOne
-    @PrimaryKeyJoinColumn
+    @PrimaryKeyJoinColumn(name="assets",referencedColumnName="user_id")
     public Assets getAssets() {
         return assets;
+    }
+    @Transient
+    public String getAuth_key() {
+        return auth_key;
+    }
+
+    public void setAuth_key(String auth_key) {
+        this.auth_key = auth_key;
     }
 
     public void setAssets(Assets assets) {
