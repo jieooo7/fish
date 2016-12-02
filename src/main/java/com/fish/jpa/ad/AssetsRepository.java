@@ -13,6 +13,6 @@ import java.util.List;
 
 public interface AssetsRepository extends CrudRepository<AssetsDetail, Long> {
 
-    List<AssetsDetail> findByUserUserInfo(int uid);
+    List<AssetsDetail> findByUserInfoOrderByValuationDesc(int uid);
 
 }

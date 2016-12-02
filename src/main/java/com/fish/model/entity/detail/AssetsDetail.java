@@ -30,8 +30,8 @@ public class AssetsDetail {
     private Timestamp end_time;//结束时间
     private String name="";
     private String pic_url="";
-    private int finish=0;
-    private int valuation=0;
+    private int finish=0;//完成度
+    private int valuation=0;//估值
 
 
 
@@ -47,7 +47,6 @@ public class AssetsDetail {
     public void setId(int id) {
         this.id = id;
     }
-//    @ManyToOne
     @Column(name = "user_id")
     public int getUserInfo() {
         return userInfo;
@@ -56,8 +55,7 @@ public class AssetsDetail {
     public void setUserInfo(int userInfo) {
         this.userInfo = userInfo;
     }
-//    @ManyToOne
-//    @JoinColumn(name = "ad_id", referencedColumnName = "id")
+    @Column(name = "ad_id")
     public int getAd() {
         return ad;
     }

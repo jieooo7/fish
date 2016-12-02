@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface PuzzleRepository extends CrudRepository<PuzzleCard, Long> {
 
-    List<PuzzleCard> findByAdIdOrderBySeqASC(int ad_id);
+    List<PuzzleCard> findByAdIdOrderBySeqAsc(int ad_id);
     PuzzleCard findById(int id);
 
 

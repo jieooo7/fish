@@ -1,6 +1,8 @@
 package com.fish.controller;
 
+import com.fish.config.ErrorCode;
 import com.fish.jpa.ad.AdRepository;
+import com.fish.jpa.ad.AssetsRepository;
 import com.fish.jpa.ad.CollectRepository;
 import com.fish.jpa.ad.CommentRepository;
 import com.fish.jpa.ad.ImageRepository;
@@ -11,10 +13,12 @@ import com.fish.jpa.ad.QuestionRepository;
 import com.fish.model.entity.ad.Ad;
 import com.fish.model.entity.ad.Comment;
 import com.fish.model.entity.ad.Images;
+import com.fish.model.entity.detail.AssetsDetail;
 import com.fish.model.entity.puzzle.PuzzleCard;
 import com.fish.model.entity.question.Question;
 import com.fish.model.response.BaseModel;
 import com.fish.model.response.model.AdModel;
+import com.fish.model.response.model.AssetsModel;
 import com.fish.model.response.model.PuzzleModel;
 
 import org.slf4j.Logger;
@@ -66,6 +70,9 @@ public class AdController {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private AssetsRepository assetsRepository;
 
     @RequestMapping("/api/ads")
     public String ad() {
@@ -176,6 +183,27 @@ public class AdController {
 
     }
 
+    @RequestMapping("/api/get_assetsDetail")
+    public BaseModel<AssetsModel> getAssets(@RequestHeader(value = "uid", defaultValue = "1") String uid) {
+
+        BaseModel<AssetsModel> model = new BaseModel<AssetsModel>();
+        AssetsModel assetsModel = new AssetsModel();
+        List<AssetsDetail> assetsDetails = new ArrayList<AssetsDetail>();
+        assetsDetails = assetsRepository.findByUserInfoOrderByValuationDesc(Integer.parseInt(uid));
+        int money = 0;
+        for (AssetsDetail assetsDetail : assetsDetails) {
+            money += assetsDetail.getValuation();
+
+        }
+        assetsModel.setTotal_money(money);
+        assetsModel.setAssetsDetails(assetsDetails);
+
+
+        model.setData(assetsModel);
+        return model;
+
+    }
+
     //我的拼图
     @RequestMapping("/api/get_puzzles")
     public BaseModel<List<PuzzleModel>> getPuzzle(@RequestHeader(value = "uid", defaultValue = "1") String uid) {
@@ -184,45 +212,57 @@ public class AdController {
         BaseModel<List<PuzzleModel>> model = new BaseModel<List<PuzzleModel>>();
         List<Integer> ads = puzzleRepository.findPuzzle(Integer.parseInt(uid));
         List<PuzzleModel> puzzleModels = new ArrayList<PuzzleModel>();
-        for (Integer ad : ads) {
-            List<PuzzleCard> puzzleCards = cardRepository.findByAdIdOrderBySeqASC(ad);
-            Ad theAd = repository.findById(ad);
+        if (ads.size() > 0) {
+
+            for (Integer ad : ads) {
+                List<PuzzleCard> puzzleCards = cardRepository.findByAdIdOrderBySeqAsc(ad);
+                Ad theAd = repository.findById(ad);
+
+                if (puzzleCards.size() > 0) {
 
 
-            PuzzleModel puzzleModel = new PuzzleModel();
-            puzzleModel.setTitle(puzzleCards.get(0).getName());
-            puzzleModel.setName(puzzleCards.get(0).getCard_desc());
-            puzzleModel.setPic(puzzleCards.get(0).getPic_url());
-            puzzleModel.setTotal(puzzleCards.size());
-            puzzleModel.setValuation("1000");//估值
-            puzzleModel.setTime("" + (theAd.getEnd_time().getTime() - theAd.getStart_time().getTime() / (24 * 60 * 60 * 1000)));
-            puzzleModel.setTop_money(theAd.getTop_bonus() + "/" + theAd.getTop_bonus_people());
+                    PuzzleModel puzzleModel = new PuzzleModel();
+                    puzzleModel.setTitle(puzzleCards.get(0).getName());
+                    puzzleModel.setName(puzzleCards.get(0).getCard_desc());
+                    puzzleModel.setPic(puzzleCards.get(0).getPic_url());
+                    puzzleModel.setTotal(puzzleCards.size());
+                    puzzleModel.setValuation("1000");//估值
+                    if (theAd != null) {
 
-            List<PuzzleModel.Puzzle> puzzles = new ArrayList<PuzzleModel.Puzzle>();
+                        puzzleModel.setTime("" + (theAd.getEnd_time().getTime() - theAd.getStart_time().getTime() / (24 * 60 * 60 * 1000)));
+                        puzzleModel.setTop_money(theAd.getTop_bonus() + "/" + theAd.getTop_bonus_people());
+                    }
 
-            int have=0;
-            for (PuzzleCard puzzleCard : puzzleCards) {
-                PuzzleModel.Puzzle puzzle = puzzleModel.new Puzzle();
-                puzzle.setName(puzzleCard.getCard_name());
-                puzzle.setSeq(puzzleCard.getSeq());
-                int no=puzzleRepository.countByUserIdAndCardId(Integer.parseInt(uid), puzzleCard.getId());
-                puzzle.setNo(no);
-                if(no>0){
-                    have++;
+                    List<PuzzleModel.Puzzle> puzzles = new ArrayList<PuzzleModel.Puzzle>();
+
+                    int have = 0;
+                    for (PuzzleCard puzzleCard : puzzleCards) {
+                        PuzzleModel.Puzzle puzzle = puzzleModel.new Puzzle();
+                        puzzle.setName(puzzleCard.getCard_name());
+                        puzzle.setSeq(puzzleCard.getSeq());
+                        int no = puzzleRepository.countByUserIdAndCardId(Integer.parseInt(uid), puzzleCard.getId());
+                        puzzle.setNo(no);
+                        if (no > 0) {
+                            have++;
+                        }
+                        puzzles.add(puzzle);
+                    }
+
+                    puzzleModel.setHave(have);
+
+                    puzzleModel.setPuzzles(puzzles);
+
+                    puzzleModels.add(puzzleModel);
                 }
-                puzzles.add(puzzle);
+
             }
-
-            puzzleModel.setHave(have);
-
-            puzzleModel.setPuzzles(puzzles);
-
-            puzzleModels.add(puzzleModel);
-
+            model.setData(puzzleModels);
+        } else {
+            model.setErrorCode(ErrorCode.NO_CONTENT);
+            model.setMsg("您还没有拼图哦");
         }
 
 
-        model.setData(puzzleModels);
         return model;
 
     }
@@ -258,6 +298,168 @@ public class AdController {
  * <p>
  * model.addAttribute("user", user);
  * return "userForm";
+ * }
+ * }
+ * @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
+ * void handleIllegalArgumentException(HttpServletResponse response) throws IOException {
+ * response.sendError(HttpStatus.BAD_REQUEST.value(),
+ * "Please try again and with a non empty string as 'name'");
+ * }
+ * <p>
+ * <p>
+ * 自定义异常+@ResponseStatus注解：
+ * <p>
+ * //定义一个自定义异常，抛出时返回状态码404
+ * @ResponseStatus(value = HttpStatus.NOT_FOUND)
+ * public class ResourceNotFoundException extends RuntimeException {
+ * ...
+ * }
+ * <p>
+ * //在Controller里面直接抛出这个异常
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * throw new ResourceNotFoundException();//把这个异常抛出
+ * }
+ * }
+ * }
+ * 使用Spring的内置异常
+ * <p>
+ * 默认情况下，Spring 的DispatcherServlet注册了DefaultHandlerExceptionResolver,这个resolver会处理标准的Spring MVC异常来表示特定的状态码
+ * <p>
+ * Exception                                   HTTP Status Code
+ * ConversionNotSupportedException             500 (Internal Server Error)
+ * HttpMediaTypeNotAcceptableException         406 (Not Acceptable)
+ * HttpMediaTypeNotSupportedException          415 (Unsupported Media Type)
+ * HttpMessageNotReadableException             400 (Bad Request)
+ * HttpMessageNotWritableException             500 (Internal Server Error)
+ * HttpRequestMethodNotSupportedException      405 (Method Not Allowed)
+ * MissingServletRequestParameterException     400 (Bad Request)
+ * NoSuchRequestHandlingMethodException        404 (Not Found)
+ * TypeMismatchException                       400 (Bad Request)
+ * 在Controller方法中通过HttpServletResponse参数直接设值
+ * <p>
+ * //任何一个RequestMapping 的函数都可以接受一个HttpServletResponse类型的参数
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id ,HttpServletResponse response){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * response.setStatus(HttpServletResponse.SC_NOT_FOUND);//设置状态码
+ * }
+ * return ....
+ * }
+ * }
+ * @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
+ * void handleIllegalArgumentException(HttpServletResponse response) throws IOException {
+ * response.sendError(HttpStatus.BAD_REQUEST.value(),
+ * "Please try again and with a non empty string as 'name'");
+ * }
+ * <p>
+ * <p>
+ * 自定义异常+@ResponseStatus注解：
+ * <p>
+ * //定义一个自定义异常，抛出时返回状态码404
+ * @ResponseStatus(value = HttpStatus.NOT_FOUND)
+ * public class ResourceNotFoundException extends RuntimeException {
+ * ...
+ * }
+ * <p>
+ * //在Controller里面直接抛出这个异常
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * throw new ResourceNotFoundException();//把这个异常抛出
+ * }
+ * }
+ * }
+ * 使用Spring的内置异常
+ * <p>
+ * 默认情况下，Spring 的DispatcherServlet注册了DefaultHandlerExceptionResolver,这个resolver会处理标准的Spring MVC异常来表示特定的状态码
+ * <p>
+ * Exception                                   HTTP Status Code
+ * ConversionNotSupportedException             500 (Internal Server Error)
+ * HttpMediaTypeNotAcceptableException         406 (Not Acceptable)
+ * HttpMediaTypeNotSupportedException          415 (Unsupported Media Type)
+ * HttpMessageNotReadableException             400 (Bad Request)
+ * HttpMessageNotWritableException             500 (Internal Server Error)
+ * HttpRequestMethodNotSupportedException      405 (Method Not Allowed)
+ * MissingServletRequestParameterException     400 (Bad Request)
+ * NoSuchRequestHandlingMethodException        404 (Not Found)
+ * TypeMismatchException                       400 (Bad Request)
+ * 在Controller方法中通过HttpServletResponse参数直接设值
+ * <p>
+ * //任何一个RequestMapping 的函数都可以接受一个HttpServletResponse类型的参数
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id ,HttpServletResponse response){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * response.setStatus(HttpServletResponse.SC_NOT_FOUND);//设置状态码
+ * }
+ * return ....
+ * }
+ * }
+ * @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
+ * void handleIllegalArgumentException(HttpServletResponse response) throws IOException {
+ * response.sendError(HttpStatus.BAD_REQUEST.value(),
+ * "Please try again and with a non empty string as 'name'");
+ * }
+ * <p>
+ * <p>
+ * 自定义异常+@ResponseStatus注解：
+ * <p>
+ * //定义一个自定义异常，抛出时返回状态码404
+ * @ResponseStatus(value = HttpStatus.NOT_FOUND)
+ * public class ResourceNotFoundException extends RuntimeException {
+ * ...
+ * }
+ * <p>
+ * //在Controller里面直接抛出这个异常
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * throw new ResourceNotFoundException();//把这个异常抛出
+ * }
+ * }
+ * }
+ * 使用Spring的内置异常
+ * <p>
+ * 默认情况下，Spring 的DispatcherServlet注册了DefaultHandlerExceptionResolver,这个resolver会处理标准的Spring MVC异常来表示特定的状态码
+ * <p>
+ * Exception                                   HTTP Status Code
+ * ConversionNotSupportedException             500 (Internal Server Error)
+ * HttpMediaTypeNotAcceptableException         406 (Not Acceptable)
+ * HttpMediaTypeNotSupportedException          415 (Unsupported Media Type)
+ * HttpMessageNotReadableException             400 (Bad Request)
+ * HttpMessageNotWritableException             500 (Internal Server Error)
+ * HttpRequestMethodNotSupportedException      405 (Method Not Allowed)
+ * MissingServletRequestParameterException     400 (Bad Request)
+ * NoSuchRequestHandlingMethodException        404 (Not Found)
+ * TypeMismatchException                       400 (Bad Request)
+ * 在Controller方法中通过HttpServletResponse参数直接设值
+ * <p>
+ * //任何一个RequestMapping 的函数都可以接受一个HttpServletResponse类型的参数
+ * @Controller public class SomeController {
+ * @RequestMapping(value="/video/{id}",method=RequestMethod.GET) public @ResponseBody Video getVidoeById(@PathVariable long id ,HttpServletResponse response){
+ * if (isFound()) {
+ * // 做该做的逻辑
+ * }
+ * else {
+ * response.setStatus(HttpServletResponse.SC_NOT_FOUND);//设置状态码
+ * }
+ * return ....
  * }
  * }
  * @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
