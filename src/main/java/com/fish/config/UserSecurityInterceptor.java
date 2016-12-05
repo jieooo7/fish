@@ -1,9 +1,13 @@
 package com.fish.config;
 
 import com.fish.controller.AdController;
+import com.fish.securety.AESHelper;
+import com.fish.securety.MD5;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,15 +22,49 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(AdController.class);
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 //        System.out.println(">>>MyInterceptor2>>>>>>>在请求处理之前进行调用（Controller方法调用之前）");
         String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
-        String url = requestUri.substring(contextPath.length());
+        String url = requestUri.substring(contextPath.length()).replace("//","/");
+
+        String uid=request.getHeader("uid");
+        String key=request.getHeader("Custom-Auth-Key");
+        String imei=request.getHeader("imei");
+        String client=request.getHeader("client");
+        String version=request.getHeader("version");
+        String timeToken=request.getHeader("timeToken");
+
+
+
+//        if(uid==null||uid.length()==0){
+//
+//            String auth_key= MD5.getMD5(url.toLowerCase()+imei.toLowerCase()+timeToken.toLowerCase());
+//
+//            if(key.equals(AESHelper.encrypt(auth_key,CommonData.ENCRYPT_KEY))){
+//                return true;
+//            }else {
+//                return false;
+//            }
+//
+//        }else{
+//            String auth_key= MD5.getMD5(url.toLowerCase()+uid.toLowerCase()+timeToken.toLowerCase());
+//            if(key.equals(AESHelper.encrypt(auth_key,stringRedisTemplate.opsForValue().get(uid+"session")))){
+//                return true;
+//            }else {
+//                return false;
+//            }
+//
+//        }
+
+
         log.debug(">>>当前的url>>>>>>>"+requestUri);
-        log.debug(">>>当前的contextPath>>>>>>>"+contextPath);
+//        log.debug(">>>当前的contextPath>>>>>>>"+contextPath);
         log.debug(">>>当前的url+++>>>>>>>"+url);
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+
 public class AESHelper {
 
     /** 算法/模式/填充 **/

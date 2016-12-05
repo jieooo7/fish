@@ -43,7 +43,6 @@ public class UserInfo {
 
 
     private String nick_name;
-
     private String auth_key;
 
 

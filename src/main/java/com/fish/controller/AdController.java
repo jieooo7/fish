@@ -20,6 +20,7 @@ import com.fish.model.response.BaseModel;
 import com.fish.model.response.model.AdModel;
 import com.fish.model.response.model.AssetsModel;
 import com.fish.model.response.model.PuzzleModel;
+import com.fish.service.PuzzleService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +78,7 @@ public class AdController {
     @RequestMapping("/api/ads")
     public String ad() {
 
-        insertAds();
+//        insertAds();
         return "ok";
     }
 
@@ -206,7 +207,7 @@ public class AdController {
 
     //我的拼图
     @RequestMapping("/api/get_puzzles")
-    public BaseModel<List<PuzzleModel>> getPuzzle(@RequestHeader(value = "uid", defaultValue = "1") String uid) {
+    public BaseModel<List<PuzzleModel>> getPuzzles(@RequestHeader(value = "uid", defaultValue = "1") String uid) {
 
         Question question = new Question();
         BaseModel<List<PuzzleModel>> model = new BaseModel<List<PuzzleModel>>();
@@ -268,25 +269,47 @@ public class AdController {
     }
 
 
-    public void insertAds() {
 
 
-        Ad ad = new Ad();
-        ad.setTitle("海飞丝");
-        ad.setContent("啊呀呀");
-//        ad.setEnd_time(new Timestamp(new Date().getTime()));
-        ad.setStart_time(new Timestamp(new java.util.Date().getTime()));
-        ad.setPublish_time(new Timestamp(new java.util.Date().getTime()));
-        ad.setEnd_time(new Timestamp(new java.util.Date().getTime()));
-        Images images = new Images();
-        images.setUrl("./url/jpg12.jpg");
-        images.setAd_id(ad);
-        images.setTime(new Timestamp(new java.util.Date().getTime()));
-        repository.save(ad);
-        imageRepository.save(images);
+    @RequestMapping("/api/get_puzzle")
+    public BaseModel<PuzzleCard> getpuzzle(@RequestHeader(value = "uid", defaultValue = "1") String uid,@RequestParam(value = "ad_id", defaultValue = "0") int ad_id) {
 
+        BaseModel<PuzzleCard> model = new BaseModel<PuzzleCard>();
+
+        PuzzleService service=new PuzzleService();
+
+        PuzzleCard puzzleCard=service.getPuzzle(Integer.parseInt(uid),ad_id);
+        if(puzzleCard!=null){
+            model.setData(puzzleCard);
+        }else{
+            model.setErrorCode(ErrorCode.NO_CARD);
+        }
+        return model;
 
     }
+
+
+
+
+//    public void insertAds() {
+//
+//
+//        Ad ad = new Ad();
+//        ad.setTitle("海飞丝");
+//        ad.setContent("啊呀呀");
+////        ad.setEnd_time(new Timestamp(new Date().getTime()));
+//        ad.setStart_time(new Timestamp(new java.util.Date().getTime()));
+//        ad.setPublish_time(new Timestamp(new java.util.Date().getTime()));
+//        ad.setEnd_time(new Timestamp(new java.util.Date().getTime()));
+//        Images images = new Images();
+//        images.setUrl("./url/jpg12.jpg");
+//        images.setAd_id(ad);
+//        images.setTime(new Timestamp(new java.util.Date().getTime()));
+//        repository.save(ad);
+//        imageRepository.save(images);
+//
+//
+//    }
 
 }
 

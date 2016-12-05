@@ -5,7 +5,7 @@ package com.fish.config;
  */
 
 public class CommonData {
-    public final static String ENCRYPT_KEY="";//c+s+u  切换大小写
+    public final static String ENCRYPT_KEY="fc26cca3e060c5430f981976248a2c69";//c+s+u  切换大小写
     public final static long EXPIRETIME=180L;
 
 
