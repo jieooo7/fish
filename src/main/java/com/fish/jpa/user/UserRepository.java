@@ -20,6 +20,6 @@ public interface UserRepository extends CrudRepository<UserInfo, Long> {
 
 
     @Modifying
-    @Query("update user_info u set u.passwd = ?2 where u.id =?1")
+    @Query("update UserInfo u set u.passwd = ?2 where u.id =?1")
     public int changePass(int uid,String pass);
 }

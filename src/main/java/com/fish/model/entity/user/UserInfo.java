@@ -1,5 +1,7 @@
 package com.fish.model.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -27,7 +29,7 @@ public class UserInfo {
     private String email = "";
 
     private String tel = "";
-
+    @JsonIgnore
     private String passwd = "";
 
     private String id_card = "";
@@ -37,13 +39,13 @@ public class UserInfo {
     private Timestamp login_time;
 
     private byte sex = -1;
-
+    @JsonIgnore
     private String code = "";
     private String head_pic = "";
 
 
-    private String nick_name;
-    private String auth_key;
+    private String nick_name="";
+    private String auth_key="";
 
 
     private Assets assets;

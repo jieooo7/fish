@@ -1,5 +1,7 @@
 package com.fish.model.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "assets")
 public class Assets {
 
-
+    @JsonIgnore
     private int user_id;
     private int money=0;
     private int card_num=0;

@@ -1,5 +1,7 @@
 package com.fish.model.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -19,7 +21,8 @@ public class CardBank {
     private String card_no="";
     private String bank="";
     private Timestamp create_time;
-    private int user_id;
+    @JsonIgnore
+    private int userId;
 
     public CardBank() {
     }
@@ -57,12 +60,12 @@ public class CardBank {
     public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
-
-    public int getUser_id() {
-        return user_id;
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

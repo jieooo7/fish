@@ -1,5 +1,14 @@
 package com.fish;
 
+import com.fish.storage.StorageProperties;
+import com.fish.storage.StorageService;
+import com.fish.view.BlogProperties;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.context.TypeExcludeFilter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.Cache;
 import net.sf.ehcache.management.CacheManager;
 
@@ -15,6 +24,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -28,6 +39,8 @@ public class Application {
 
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+    @Autowired
+    private BlogProperties blogProperties;
 	
     public static void main(String[] args) {
 
@@ -47,6 +60,15 @@ public class Application {
         });
     }
 
+
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+//            storageService.deleteAll();
+            storageService.init();
+//            System.out.println("================================="+blogProperties.getName());
+        };
+    }
 
 //    @Bean
 //    public CacheManager cacheManager() {

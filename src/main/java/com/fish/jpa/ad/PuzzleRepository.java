@@ -20,8 +20,8 @@ public interface PuzzleRepository extends CrudRepository<PuzzleCard, Long> {
     PuzzleCard findById(int id);
 
     @Modifying
-    @Query("update card_category u set u.lava = ?2 where u.ad_id =?1")
-    public int changeLava(int ad_id,int lava);
+    @Query("update PuzzleCard u set u.lava = ?2 where u.adId =?1")
+    int changeLava(int ad_id,int lava);
 
 
 

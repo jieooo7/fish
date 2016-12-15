@@ -23,17 +23,18 @@ import java.util.Random;
 public class PuzzleService {
 
     private final static Logger logger = LoggerFactory.getLogger(PuzzleService.class);
-
     @Autowired
     private PuzzleUserRepository puzzleRepository;
-
 
     @Autowired
     private PuzzleRepository cardRepository;
 
     @Autowired
-    public PuzzleService() {
+    public PuzzleService(PuzzleUserRepository puzzleRepository, PuzzleRepository cardRepository) {
 
+
+        this.cardRepository = cardRepository;
+        this.puzzleRepository = puzzleRepository;
     }
 
     @Transactional
@@ -51,7 +52,7 @@ public class PuzzleService {
             if (card.getLava() > 0) {
                 cardRepository.changeLava(ad_id, card.getLava() - 1);
 
-                PuzzleUser puzzleUser=new PuzzleUser();
+                PuzzleUser puzzleUser = new PuzzleUser();
                 puzzleUser.setAdId(ad_id);
                 puzzleUser.setCardId(card.getId());
                 puzzleUser.setUserId(uid);
@@ -61,11 +62,10 @@ public class PuzzleService {
             }
 
             return null;
-        }else{
+        } else {
             return null;
         }
     }
-
 
 
 }

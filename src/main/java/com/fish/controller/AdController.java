@@ -75,6 +75,11 @@ public class AdController {
     @Autowired
     private AssetsRepository assetsRepository;
 
+
+    @Autowired
+    private PuzzleService service;
+
+
     @RequestMapping("/api/ads")
     public String ad() {
 
@@ -276,7 +281,6 @@ public class AdController {
 
         BaseModel<PuzzleCard> model = new BaseModel<PuzzleCard>();
 
-        PuzzleService service=new PuzzleService();
 
         PuzzleCard puzzleCard=service.getPuzzle(Integer.parseInt(uid),ad_id);
         if(puzzleCard!=null){

@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 public class LoginController {
 
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 

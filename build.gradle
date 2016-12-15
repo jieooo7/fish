@@ -9,12 +9,16 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 
-
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
 
 
 jar {
@@ -42,12 +46,16 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-cache")
     // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache-core
     compile group: 'net.sf.ehcache', name: 'ehcache-core', version: '2.6.11'
+    compile 'org.jsoup:jsoup:1.10.1'
 
     compile("org.springframework.boot:spring-boot-starter-redis")
+    compile("org.springframework.boot:spring-boot-configuration-processor")
+//    compile("org.springframework.boot:spring-boot-devtools")
     //    compile("org.hibernate:hibernate-core:5.1.0.Final")
     //    compile("org.hibernate:hibernate-validator")
 
     testCompile 'junit:junit'
+    compile 'junit:junit:4.12'
 }
 
 
@@ -59,6 +67,18 @@ task wrapper(type: Wrapper) {
 springBoot {
     mainClass = "com.fish.Application"
 }
+
+//gradle bootRun --debug-jvm  远程断点调试
+bootRun {
+    jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+}
+//DevTools在重启过程中依赖于application context的shutdown hook，如果设置 SpringApplication.setRegisterShutdownHook(false) ，则自动重启将不起作用。
+//设置 spring.devtools.restart.enabled 属性为false，可以关闭该特性。可以在application.properties中设置，也可以通过设置环境变量的方式。
+//System.setProperty("spring.devtools.restart.enabled", "false");
+//通过设置 spring.devtools.restart.trigger-file 属性指定一个文件，当该文件被修改时，则触发自动重启。
+//bootRun {
+//    addResources = true
+//}
 
 //优先级访问,
 //private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
