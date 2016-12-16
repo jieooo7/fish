@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.Cache;
+
 import net.sf.ehcache.management.CacheManager;
 
 import org.slf4j.Logger;
@@ -37,17 +38,19 @@ import java.util.List;
 public class Application {
 
 
-
     private static final Logger log = LoggerFactory.getLogger(Application.class);
     @Autowired
     private BlogProperties blogProperties;
-	
+
     public static void main(String[] args) {
 
-         SpringApplication.run(Application.class, args);
+//        System.setProperty("spring.devtools.restart.enabled", "true");
+//        System.setProperty("spring.devtools.remote.secret", "true");
+
+        SpringApplication.run(Application.class, args);
     }
 
-//EmbeddedServletContainerAutoConfiguration.EmbeddedTomcat
+    //EmbeddedServletContainerAutoConfiguration.EmbeddedTomcat
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
 
@@ -66,8 +69,8 @@ public class Application {
         return (args) -> {
 //            storageService.deleteAll();
             storageService.init();
-//            System.out.println("================================="+blogProperties.getName());
-        };
+//            System.out.println("================978746456================="+blogProperties.getName());
+        }
     }
 
 //    @Bean

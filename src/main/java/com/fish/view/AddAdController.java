@@ -55,7 +55,7 @@ public class AddAdController {
     public String add_ok(HttpServletRequest request,  HttpServletResponse response,@RequestParam(value="content",defaultValue = "")String content) {
 
         log.info("========"+content);
-        return "添加完成";
+        return "添加完成了";
     }
 
 }

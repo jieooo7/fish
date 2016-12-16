@@ -50,7 +50,7 @@ dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-redis")
     compile("org.springframework.boot:spring-boot-configuration-processor")
-//    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-devtools")
     //    compile("org.hibernate:hibernate-core:5.1.0.Final")
     //    compile("org.hibernate:hibernate-validator")
 
@@ -69,8 +69,13 @@ springBoot {
 }
 
 //gradle bootRun --debug-jvm  远程断点调试
+//编辑run配置,添加remote
+// ./gradlew :fish2:bootRun --debug-jvm --info
+//然后debug remote就可以断点了
+
 bootRun {
-    jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+    addResources = true
+//    jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 }
 //DevTools在重启过程中依赖于application context的shutdown hook，如果设置 SpringApplication.setRegisterShutdownHook(false) ，则自动重启将不起作用。
 //设置 spring.devtools.restart.enabled 属性为false，可以关闭该特性。可以在application.properties中设置，也可以通过设置环境变量的方式。

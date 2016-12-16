@@ -3,6 +3,9 @@
 
 <head th:include="head :: head">
 
+
+    <title>添加广告内容</title>
+
 </head>
 
 <body>
@@ -13,6 +16,8 @@
 <!--引入jquery和wangEditor.js-->   <!--注意：javascript必须放在body最后，否则可能会出现问题-->
 <script type="text/javascript" src="/dist/js/lib/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/dist/js/wangEditor.min.js"></script>
+
+
 
 <form action="/add/add_ad" method="post" name="upfile">
     <!-- 加载编辑器的容器 -->
@@ -62,7 +67,7 @@
     <!--});-->
 
 
-    <button type="submit">Submit</button>
+    <button type="submit">提交</button>
 </form>
 
 
