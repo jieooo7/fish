@@ -22,4 +22,7 @@ public interface StorageService {
 
     String getName();
 
+    void setDir(String dir);
+
+
 }

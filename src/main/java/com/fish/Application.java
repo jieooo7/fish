@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.devtools.RemoteSpringApplication;
 import org.springframework.cache.Cache;
 
 import net.sf.ehcache.management.CacheManager;
@@ -37,15 +38,13 @@ import java.util.List;
 //@ConfigurationProperties(prefix = "app",locations = "classpath:config/application.properties")
 public class Application {
 
-
     private static final Logger log = LoggerFactory.getLogger(Application.class);
     @Autowired
     private BlogProperties blogProperties;
 
     public static void main(String[] args) {
 
-//        System.setProperty("spring.devtools.restart.enabled", "true");
-//        System.setProperty("spring.devtools.remote.secret", "true");
+        System.setProperty("spring.devtools.restart.enabled", "true");
 
         SpringApplication.run(Application.class, args);
     }
@@ -70,7 +69,7 @@ public class Application {
 //            storageService.deleteAll();
             storageService.init();
 //            System.out.println("================978746456================="+blogProperties.getName());
-        }
+        };
     }
 
 //    @Bean

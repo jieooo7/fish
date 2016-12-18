@@ -13,18 +13,26 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
+    private String upload;
+    private String video;
 
 
     public StorageProperties() {
     }
 
-    public String getLocation() {
-        return location;
+    public String getUpload() {
+        return upload;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setUpload(String upload) {
+        this.upload = upload;
     }
 
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
 }

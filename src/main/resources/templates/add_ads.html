@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:include="head :: head">
+
+
+
+</head>
+
+<body>
+
+<title>空鱼</title>
+<!--引入wangEditor.css-->
+<link rel="stylesheet" type="text/css" href="/dist/css/wangEditor.min.css"/>
+<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
+
+
+<!--引入jquery和wangEditor.js-->   <!--注意：javascript必须放在body最后，否则可能会出现问题-->
+<!--<script type="text/javascript" src="/dist/js/lib/jquery-1.10.2.min.js"></script>-->
+<script type="text/javascript" src="/dist/js/wangEditor.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+<h1 class="form bg-primary">添加广告内容</h1>
+
+<form action="/admin/add/add_ad" method="POST" name="upfile" enctype="multipart/form-data" class="form top_margin form-horizontal" role="form">
+
+    <div class="form-group">
+        <label for="title" class="col-sm-2 control-label btn_top_margin">标题</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control btn_top_margin" id="title" name="title" placeholder="请输入标题" />
+        </div>
+    </div>
+    <!--注意代码中的for和id，这两个要一样。效果就是当你的鼠标的指针指到-->
+    <!--lable标签时，对应的id就会获得焦点。-->
+
+
+    <div class="form-group">
+        <label for="des1" class="col-sm-2 control-label btn_top_margin">描述信息</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control btn_top_margin" id="des1" name="descripe" placeholder="请输入描述" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="total" class="col-sm-2 control-label btn_top_margin">总奖金</label>
+        <div class="col-sm-2">
+            <input type="number" class="form-control btn_top_margin" id="total" name="total_money" placeholder="请输入总奖金" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="big1" class="col-sm-2 control-label btn_top_margin">头奖金额</label>
+        <div class="col-sm-2">
+            <input type="number" class="form-control btn_top_margin" id="big1" name="top_money" placeholder="请输入头奖金额" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="man1" class="col-sm-2 control-label btn_top_margin">头奖人数</label>
+        <div class="col-sm-2">
+            <input type="number" class="form-control btn_top_margin" id="man1" name="man"
+                   placeholder="请输入头奖人数"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label btn_top_margin">分类</label>
+        <div class="col-sm-1">
+            <select class="form-control btn_top_margin" name="catagory">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+                <!--<tr-->
+                        <!--th:each="ad : ${allads}">-->
+                    <!--<td th:text="${ad.id}">John</td>-->
+                    <!--<td th:text="${ad.name}">Doe</td>-->
+            </select>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="keyword" class="col-sm-2 control-label btn_top_margin">关键词</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control btn_top_margin" id="keyword" name="keyword"
+                   placeholder="多个关键词用逗号分隔" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="video1" class="col-sm-2 control-label btn_top_margin">输入视频文件地址</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control btn_top_margin" id="video1" name="video1"
+                   placeholder="没有可以不用输入" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="time1" class="col-sm-2 control-label btn_top_margin">请选择开始时间</label>
+        <div class="col-sm-2">
+            <input type="datetime-local" class="form-control btn_top_margin" id="time1" name="time1"
+                   placeholder="" />
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="time2" class="col-sm-2 control-label btn_top_margin">请选择结束时间</label>
+        <div class="col-sm-2">
+            <input type="datetime-local" class="form-control btn_top_margin" id="time2" name="time2"
+                   placeholder="" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
+        <div class="input-group date form_datetime col-md-5"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+            <input class="form-control" size="16" type="text" value="" readonly="readonly"/>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+        </div>
+        <input type="hidden" id="dtp_input1" value="" /><br/>
+    </div>
+
+    <!--value="2012-06-15 14:45"-->
+
+
+
+
+
+    <div class="form-group">
+        <label for="file1" class="col-sm-2 control-label btn_top_margin">上传视频文件</label>
+        <div class="col-sm-6">
+            <input type="file" class="form-control btn_top_margin" id="file1" name="video"
+                   />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <p class="help-block col-sm-6">Example block-level help text here.</p>
+    </div>
+
+
+
+
+    <!-- 加载编辑器的容器 -->
+    <textarea id="textarea1" name="content" style="height:400px;max-height:500px;" class="btn_top_margin">
+        <p>请输入内容...</p>
+        </textarea>
+    <!--这里引用jquery和wangEditor.js-->
+    <script type="text/javascript">
+    // 获取元素
+    var textarea = document.getElementById('textarea1');
+    // 生成编辑器
+    var editor = new wangEditor(textarea);
+
+    // 上传图片（举例）
+    editor.config.uploadImgUrl = '/admin/back';
+
+    <!--// 配置自定义参数（举例）-->
+    <!--editor.config.uploadParams = {-->
+        <!--token: 'abcdefg',-->
+        <!--user: 'wangfupeng1988'-->
+    <!--};-->
+
+    <!--// 设置 headers（举例）-->
+    <!--editor.config.uploadHeaders = {-->
+        <!--'Accept' : 'text/x-json'-->
+    <!--};-->
+
+
+
+    // 隐藏掉插入网络图片功能。该配置，只有在你正确配置了图片上传功能之后才可用。
+    <!--editor.config.hideLinkImg = true;-->
+
+    editor.config.uploadImgFileName = 'file'
+    editor.create();
+
+
+
+    </script>
+    <!--$('#btn1').click(function () {-->
+    <!--// 销毁编辑器-->
+    <!--editor.destroy();-->
+    <!--});-->
+
+    <!--$('#btn2').click(function () {-->
+    <!--// 恢复编辑器-->
+    <!--editor.undestroy();-->
+    <!--});-->
+
+
+    <button type="submit" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">提交</button>
+</form>
+
+
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1,
+        format: 'yyyy-mm-dd hh:ii'
+    });
+</script>
+
+<!--$('#dtp_input1').attr('value');-->
+</body>
+</html>
+
+<!--<div th:include="footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})"></div>-->
+<!--th:include 是加载模板的内容，而th:replace则会替换当前标签为模板中的标签-->
+<!--<div th:include="footer :: #copy-section">-->
+
+<!--模板参数配置-->
+<!--th:fragment定义模板的时候可以定义参数：-->
+
+<!--<div th:fragment="frag (onevar,twovar)">-->
+<!--<p th:text="${onevar} + ' - ' + ${twovar}">...</p>-->
+<!--</div>-->
+<!--在 th:include 和 th:replace中我们可以这样传参：-->
+
+<!--<div th:include="::frag (${value1},${value2})">...</div>-->
+<!--<div th:include="::frag (onevar=${value1},twovar=${value2})">...</div>-->
+<!--此外，定义模板的时候签名也可以不包括参数：<div th:fragment="frag">，我们任然可以通过<div th:include="::frag (onevar=${value1},twovar=${value2})">...</div>这种方式调用模板。这其实和<div th:include="::frag" th:with="onevar=${value1},twovar=${value2}">起到一样的效果-->
+
+<!--th:assert 断言-->
+
+<!--我们可以通过th:assert来方便的验证模板参数<header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>-->
+
+<!--th:remove 删除代码-->

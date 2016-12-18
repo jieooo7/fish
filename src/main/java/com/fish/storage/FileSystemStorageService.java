@@ -23,17 +23,16 @@ import java.util.stream.Stream;
 //@EnableConfigurationProperties(StorageProperties.class)
 public class FileSystemStorageService implements StorageService {
 
-    private final Path rootLocation;
+    private Path rootLocation;
+
 
     private String name;
 
-    private StorageProperties properties;
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
 
-        this.properties=properties;
-//        this.rootLocation = Paths.get(properties.getLocation());
-        this.rootLocation = Paths.get("/home/thy/www/file/");
+        this.rootLocation = Paths.get(properties.getUpload());
+//        this.rootLocation = Paths.get("/home/thy/www/file/");
     }
 
     @Override
@@ -49,6 +48,7 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
     }
+
 
     @Override
     public Stream<Path> loadAll() {
@@ -105,4 +105,10 @@ public class FileSystemStorageService implements StorageService {
 
         return name;
     }
+
+    @Override
+    public void setDir(String dir) {
+        this.rootLocation = Paths.get(dir);
+    }
+
 }

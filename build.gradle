@@ -36,6 +36,9 @@ repositories {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+//configurations {
+//    compile.exclude module: "spring-boot-starter-tomcat"
+//}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -47,7 +50,7 @@ dependencies {
     // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache-core
     compile group: 'net.sf.ehcache', name: 'ehcache-core', version: '2.6.11'
     compile 'org.jsoup:jsoup:1.10.1'
-
+//    compile("org.springframework.boot:spring-boot-starter-jetty:1.4.1.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-redis")
     compile("org.springframework.boot:spring-boot-configuration-processor")
     compile("org.springframework.boot:spring-boot-devtools")
@@ -72,6 +75,10 @@ springBoot {
 //编辑run配置,添加remote
 // ./gradlew :fish2:bootRun --debug-jvm --info
 //然后debug remote就可以断点了
+//和热部署更新不一样
+
+//远程更新,远端服务器启动jar,本地运行remoteApplication,缺点是不能自动调整静态文件
+//可以使用./gradlew :fish2:bootRun --debug-jvm启动,然后make就可以进行本地热加载 重启了
 
 bootRun {
     addResources = true
