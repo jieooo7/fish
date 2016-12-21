@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:include="head :: head">
+
+
+</head>
+
+<body>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+<title>管理员登录</title>
+<!--引入wangEditor.css-->
+
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+<form th:action="@{/admin/login}" method="POST" name="admin_login" role="form">
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
+               name="username"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1"
+               placeholder="Password" name="passwd"/>
+    </div>
+    <input type="hidden" name="password" id="password1"/>
+    <input type="hidden" name="_csrf" id="password1"/>
+    <button type="submit" class="btn btn-default">Submit</button>
+
+
+</form>
+
+<script type="text/javascript">
+$(function(){
+  $("form").submit(function() {
+    var v=$.md5($("#exampleInputPassword1").val());
+    $("#password1").val(v);
+    $("#exampleInputPassword1").attr("disabled", "true");
+    return true;
+  });
+});
+</script>
+
+</body>
+</html>

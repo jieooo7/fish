@@ -58,7 +58,7 @@ public class LoginController {
         }
 
 
-        if (userInfo == null && !userInfo.getPasswd().equals(MD5.getMD5(passwd + userInfo.getCode()))) {
+        if (userInfo == null || !userInfo.getPasswd().equals(MD5.getMD5(passwd + userInfo.getCode()))) {
             baseModel.setErrorCode(ErrorCode.PASSWD_ERROR);
             baseModel.setMsg("账号或密码错误");
 //            return baseModel;

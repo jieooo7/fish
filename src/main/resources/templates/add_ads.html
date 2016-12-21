@@ -10,13 +10,10 @@
 <body>
 
 <title>空鱼</title>
-<!--引入wangEditor.css-->
 <link rel="stylesheet" type="text/css" href="/dist/css/wangEditor.min.css"/>
 <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"/>
 
 
-<!--引入jquery和wangEditor.js-->   <!--注意：javascript必须放在body最后，否则可能会出现问题-->
-<!--<script type="text/javascript" src="/dist/js/lib/jquery-1.10.2.min.js"></script>-->
 <script type="text/javascript" src="/dist/js/wangEditor.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
@@ -102,32 +99,36 @@
 
     <div class="form-group">
         <label for="time1" class="col-sm-2 control-label btn_top_margin">请选择开始时间</label>
-        <div class="col-sm-2">
-            <input type="datetime-local" class="form-control btn_top_margin" id="time1" name="time1"
-                   placeholder="" />
+        <div class="input-group date form_datetime col-md-2 btn_top_margin"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="time1">
+            <input class="form-control" size="16" type="text" value="" readonly="readonly"/>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
         </div>
+        <input type="hidden" id="time1" value="" name="time1"/><br/>
     </div>
 
 
 
     <div class="form-group">
         <label for="time2" class="col-sm-2 control-label btn_top_margin">请选择结束时间</label>
-        <div class="col-sm-2">
-            <input type="datetime-local" class="form-control btn_top_margin" id="time2" name="time2"
-                   placeholder="" />
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
-        <div class="input-group date form_datetime col-md-5"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+        <div class="input-group date form_datetime col-md-2 btn_top_margin"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="time2">
             <input class="form-control" size="16" type="text" value="" readonly="readonly"/>
             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
             <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
         </div>
-        <input type="hidden" id="dtp_input1" value="" /><br/>
+        <input type="hidden" id="time2" value="" name="time2"/><br/>
     </div>
+
+
+    <!--<div class="form-group">-->
+        <!--<label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>-->
+        <!--<div class="input-group date form_datetime col-md-5"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">-->
+            <!--<input class="form-control" size="16" type="text" value="" readonly="readonly"/>-->
+            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
+        <!--</div>-->
+        <!--<input type="hidden" id="dtp_input1" value="" /><br/>-->
+    <!--</div>-->
 
     <!--value="2012-06-15 14:45"-->
 
