@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,9 @@ public class LoginController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCrypt;
+
     //    value="/add_dev", method= RequestMethod.POST
     @RequestMapping("/api/login")
     public BaseModel<UserInfo> login(@RequestParam(value = "tel", defaultValue = "") String tel,
@@ -58,7 +62,7 @@ public class LoginController {
         }
 
 
-        if (userInfo == null || !userInfo.getPasswd().equals(MD5.getMD5(passwd + userInfo.getCode()))) {
+        if (userInfo == null || !bCrypt.matches(passwd,userInfo.getPasswd())) {
             baseModel.setErrorCode(ErrorCode.PASSWD_ERROR);
             baseModel.setMsg("账号或密码错误");
 //            return baseModel;
@@ -96,10 +100,8 @@ public class LoginController {
 //        HttpHeaders
         try {
             UserInfo user = new UserInfo();
-            String code = CodeGenetate.getInstance().create();
-            user.setCode(code);
             user.setName(name);
-            user.setPasswd(MD5.getMD5(pass + code));//密码配合code进行MD5处理
+            user.setPasswd(bCrypt.encode(pass));//密码配合code进行MD5处理
             user.setTel(tel);
 //            Date date = new Date();//获得系统时间.
 //            String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.

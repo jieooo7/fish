@@ -2,6 +2,7 @@ package com.fish.service;
 
 import com.fish.jpa.user.AdminRespository;
 import com.fish.model.entity.user.AdminInfo;
+import com.fish.securety.AESHelper;
 import com.fish.securety.MD5;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
-               "e10adc3949ba59abbe56e057f20f883e", authorities);
+                user.getPasswd(), authorities);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.fish.securety;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.io.UnsupportedEncodingException;
 
 import javax.crypto.Cipher;
@@ -127,6 +129,10 @@ public class AESHelper {
 
     public static void main(String args[]) throws Exception {
 
-//        System.out.println(encrypt("中文","111111"));
+        BCryptPasswordEncoder bp=new BCryptPasswordEncoder();
+
+        System.out.println(bp.encode("e10adc3949ba59abbe56e057f20f883e"));
+
+
     }
 }
