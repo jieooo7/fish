@@ -3,6 +3,8 @@ package com.fish.securety;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -132,6 +134,20 @@ public class AESHelper {
         BCryptPasswordEncoder bp=new BCryptPasswordEncoder();
 
         System.out.println(bp.encode("e10adc3949ba59abbe56e057f20f883e"));
+
+        String html="        <p>请输入内容...<img src=\"/files/2d6cbbdcd0bf584699d5b4506711d81a\" alt=\"8ABF8049F3BFB42B3FEFA6B8C733AE81\" style=\"max-width: 100%;\">" +
+                "<br><img src=\"/files/ecf0c4df99298daaad49333b661fea62\" alt=\"F72D72067210E8CAA460736FD35AE2AE\" style=\"max-width: 100%;\"></p>\n" +
+                "        <p><br></p>";
+
+        Pattern p = Pattern.compile("<img[\\s]+src[\\s]*=[\\s]*((['\"](?<src>[^'\"]*)[\\'\"])|(?<src1>[^\\s]*))");
+        Matcher m = p.matcher(html);
+
+        while (m.find()){
+            System.out.println("+++++++"+m.group("src"));
+            System.out.println("+++++++"+m.group("src1"));
+
+        }
+
 
 
     }

@@ -1,10 +1,15 @@
 package com.fish.view;
 
+import com.fish.config.CommonData;
+import com.fish.jpa.user.AdminRespository;
+import com.fish.model.entity.user.AdminInfo;
+import com.fish.securety.AESHelper;
 import com.fish.storage.StorageFileNotFoundException;
 import com.fish.storage.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +26,13 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+
+
+    @Autowired
+    private AdminRespository adminRespository;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -66,9 +78,18 @@ public class FileUploadController {
 
     @PostMapping("/test/back")
     @ResponseBody
-    public String backName(@RequestParam("file") MultipartFile file) {
-        storageService.store(file);
-        return "/files/"+storageService.getName();
+    public String backName(@CookieValue(value = "uid", defaultValue = "-1") String uid,
+                           @RequestParam(value = "token", defaultValue = "") String token,
+                           @RequestParam("file") MultipartFile file) {
+
+        AdminInfo admin = adminRespository.findById(Integer.parseInt(AESHelper.decrypt(uid, CommonData.ENCRYPT_KEY)));
+        String token_db=stringRedisTemplate.opsForValue().get("token");
+        if(admin!=null&&token.equals(token_db)){
+
+            storageService.store(file);
+            return "/files/"+storageService.getName();
+        }
+        return "";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +29,10 @@ public class FileSystemStorageService implements StorageService {
 
     private String name;
 
+
+    public FileSystemStorageService() {
+    }
+
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
 
@@ -42,7 +47,7 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
             long time = new Date().getTime();
-            name=MD5.getMD5(time + CodeGenetate.getInstance().create() + file.getOriginalFilename());
+            name=MD5.getMD5(time + CodeGenetate.getInstance().create() + URLEncoder.encode(file.getOriginalFilename(),"UTF-8"));
             Files.copy(file.getInputStream(), this.rootLocation.resolve(name));
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);

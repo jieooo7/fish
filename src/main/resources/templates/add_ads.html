@@ -20,8 +20,9 @@
 
 <h1 class="form bg-primary">添加广告内容</h1>
 
-<form action="/admin/add/add_ad" method="POST" name="upfile" enctype="multipart/form-data" class="form top_margin form-horizontal" role="form">
-
+<form th:action="@{/admin/add/add_ads}" method="POST" name="upfile" enctype="multipart/form-data" class="form top_margin form-horizontal" role="form">
+    <!--<sec:csrfInput />-->
+    <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
     <div class="form-group">
         <label for="title" class="col-sm-2 control-label btn_top_margin">标题</label>
         <div class="col-sm-10">
@@ -31,7 +32,7 @@
     <!--注意代码中的for和id，这两个要一样。效果就是当你的鼠标的指针指到-->
     <!--lable标签时，对应的id就会获得焦点。-->
 
-
+    <input id="token" type="hidden" name="token" th:attr="value=${token}"/>
     <div class="form-group">
         <label for="des1" class="col-sm-2 control-label btn_top_margin">描述信息</label>
         <div class="col-sm-10">
@@ -120,6 +121,7 @@
     </div>
 
 
+
     <!--<div class="form-group">-->
         <!--<label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>-->
         <!--<div class="input-group date form_datetime col-md-5"  data-date-format="yyyy-mm-dd hh:ii" data-link-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">-->
@@ -160,17 +162,20 @@
     <script type="text/javascript">
     // 获取元素
     var textarea = document.getElementById('textarea1');
+    var token = document.getElementById('token').value;
+
     // 生成编辑器
     var editor = new wangEditor(textarea);
 
+
     // 上传图片（举例）
-    editor.config.uploadImgUrl = '/admin/back';
+    editor.config.uploadImgUrl = '/test/back';
 
     <!--// 配置自定义参数（举例）-->
-    <!--editor.config.uploadParams = {-->
-        <!--token: 'abcdefg',-->
+    editor.config.uploadParams = {
+        token: token
         <!--user: 'wangfupeng1988'-->
-    <!--};-->
+    };
 
     <!--// 设置 headers（举例）-->
     <!--editor.config.uploadHeaders = {-->
@@ -205,7 +210,6 @@
 
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
-        //language:  'fr',
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -218,7 +222,6 @@
     });
 </script>
 
-<!--$('#dtp_input1').attr('value');-->
 </body>
 </html>
 
@@ -243,3 +246,8 @@
 <!--我们可以通过th:assert来方便的验证模板参数<header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>-->
 
 <!--th:remove 删除代码-->
+
+
+<!--<meta name="_csrf" content="${_csrf.token}"/>-->
+<!--&lt;!&ndash; default header name is X-CSRF-TOKEN &ndash;&gt;-->
+<!--<meta name="_csrf_header" content="${_csrf.headerName}"/>-->
