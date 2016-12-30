@@ -220,7 +220,7 @@ public class AddAdController {
         HttpSession session =request.getSession();
         session.setAttribute(""+session.getAttribute(sessionId),adId);
 
-        log.info("=================id"+session.getAttribute(""+session.getAttribute(sessionId)));
+//        log.info("=================id"+session.getAttribute(""+session.getAttribute(sessionId)));
 
 
         return "redirect:/admin/add/puzzle_question";
@@ -231,7 +231,6 @@ public class AddAdController {
     public String add_puzzle(HttpServletRequest request,
                              @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId,
                              Model model){
-
 
 
         return "add_puzzle";

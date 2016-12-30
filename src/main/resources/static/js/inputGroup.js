@@ -7,10 +7,13 @@ $(function() {
         var c = $.extend({
             'widget' : 'input',
             'add' : "<span class=\"glyphicon glyphicon-plus\"></span>",
-            'del' : "<span class=\"glyphicon glyphicon-minus\"></span>"
+            'del' : "<span class=\"glyphicon glyphicon-minus\"></span>",
+            'category':1
         }, options);
 
         var _this = $(this);
+        var sort_puzzle="";
+        var sort_question=""
 
         //添加序号为1的输入框组
         addInputGroup(1);
@@ -41,7 +44,12 @@ $(function() {
                 widget = $("<input class='form-control' type='text'/>");
                 inputGroupAddon2 = $("<span class='input-group-btn'></span>");
             }else if(c.widget == 'div') {
-                widget = $("<div class='form-control'></div>");
+            if(c.category==1){
+                widget=sort_puzzle;
+            }else{
+                widget=sort_question;
+            }
+//                widget = $("<div class='form-group'><div class='input-group'><div class='input-group-addon'>@</div><input class='form-control' type='email' placeholder='Enter email'></div></div>");
                 inputGroupAddon2 = $("<span class='input-group-btn'></span>");
             }
 
