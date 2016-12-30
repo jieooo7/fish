@@ -1,5 +1,7 @@
 package com.fish.model.entity.puzzle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -19,6 +21,8 @@ public class PuzzleCard {
     private int id;
     private int adId;
     private int lava;//剩余多少张
+    @JsonIgnore
+    private int number;//剩余多少张
     private byte seq;//序号
     private String name="";//广告名字
     private String card_desc="";//拼图的描述
@@ -38,6 +42,15 @@ public class PuzzleCard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
+    }
+
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public byte getSeq() {

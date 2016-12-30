@@ -49,6 +49,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by thy on 16-12-9.
@@ -76,6 +77,8 @@ public class AddAdController {
     private StorageProperties properties;//用于设置存储文件目录,用两个store service 分别设置
 
     private final StorageService storageService=new FileSystemStorageService();
+
+    private int adId=-1;
 
 
 
@@ -130,7 +133,9 @@ public class AddAdController {
 
     }
     @RequestMapping(value = "/admin/add/add_ads", method = RequestMethod.POST)
-    public String add_ok( @CookieValue(value = "uid", defaultValue = "-1") String uid,
+    public String add_ok(  HttpServletRequest request,
+                           @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId,
+            @CookieValue(value = "uid", defaultValue = "-1") String uid,
             @RequestParam(value = "title", defaultValue = "") String title,
             @RequestParam(value = "descripe", defaultValue = "") String descripe,
             @RequestParam(value = "total_money", defaultValue = "0") int total_money,
@@ -158,7 +163,6 @@ public class AddAdController {
         Ad ad=new Ad();
         List<Videos> videos=new ArrayList<Videos>();
         List<Images> images=new ArrayList<Images>();
-
 
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -211,18 +215,26 @@ public class AddAdController {
         ad.setAuthor_name(admin.getNick_name());
         ad.setAuthor_pic(admin.getHead_pic());
         repository.save(ad);
+        adId=ad.getId();
+
+        HttpSession session =request.getSession();
+        session.setAttribute(""+session.getAttribute(sessionId),adId);
+
+        log.info("=================id"+session.getAttribute(""+session.getAttribute(sessionId)));
 
 
-
-
-        return "user/index";
+        return "redirect:/admin/add/puzzle_question";
     }
 
 
     @RequestMapping(value = "/admin/add/puzzle_question")
-    public String add_puzzle(){
+    public String add_puzzle(HttpServletRequest request,
+                             @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId,
+                             Model model){
 
-        return "";
+
+
+        return "add_puzzle";
     }
 
 

@@ -1,0 +1,79 @@
+window.setInterval(showalert, 3000);
+ function showalert()
+ {
+// window.location.reload();
+// window.onload = function(){}
+ document.getElementById('query_ticket').click(buy());
+ function buy(){
+
+ var i=0;
+ console.log("==="+i);
+       i++;
+    if(document.getElementById('YW_580000Z12604').innerText=="无"){
+        window.clearInterval() ;
+      window.open('http://zjdx1.sc.chinaz.com/Files/DownLoad/sound1/201610/7920.mp3');
+        document.getElementsByClassName('btn72')[0].click();
+
+  }
+
+ }
+}
+
+var i=0;
+while (i<15)
+  {
+  console.log("==="+i);
+  i++;
+  }
+setInterval	周期性地调用一个函数(function)或者执行一段代码。
+clearInterval	取消掉用setInterval设置的重复执行动作。
+setTimeout	在指定的延迟时间之后调用一个函数或者执行一个代码片段。
+clearTimeout	方法可取消由 setTimeout() 方法设置的 timeout。
+setTimeout() 只执行 code 一次。如果要多次调用，请使用 setInterval() 或者让 code 自身再次调用 setTimeout()。
+setTimeout(code,millisec)
+在文档中添加点击事件。当用户在文档任何地方点击时，在 id="demo" 的 <p> 元素上输出 "Hello World"：
+  document.addEventListener("click", function(){
+      document.getElementById("demo").innerHTML = "Hello World";
+  });
+object.onclick=function(){SomeJavaScriptCode};
+
+ document.getElementById('query_ticket').addEventListener
+
+
+<script type="text/javascript">
+     window.onload=function(){
+            func1();
+            func2();
+            func3();
+    }
+</script>
+复制代码
+二、JQ方法
+
+1.整个页面的document全部加载完成以后执行。不幸的这种方式不仅要求页面的DOM tree全部加载完成，而且要求所有的外部图片和资源全部加载完成。更不幸的是，如果外部资源，例如图片需要很长时间来加载，那么这个js方法执行感觉就比较慢了。也就是说这是一种最严谨的页面加载完再执行方法的方法。
+window.onload = function() {
+     $("table tr:nth-child(even)").addClass("even"); //这个是jquery代码
+};
+2.仅只需要加载所有的DOM结构，在浏览器把所有的HTML放入DOM tree之前就执行方法。包括在加载外部图片和资源之前。
+$(document).ready(function() {
+     $("table tr:nth-child(even)").addClass("even");   // 任何需要执行的js特效
+});
+还有一种简写方式
+$(function() {
+    $("table tr:nth-child(even)").addClass("even");  // 任何需要执行的js特效
+});
+
+
+
+
+var btn = document.getElementById("btn");
+btn.onclick = function(){
+     alert("Clicked");
+};
+使用DOM0级方法指定的事件处理程序被认为是元素的方法，处理程序是在元素的作用域进行的，程序中this是引用的是当前元素。
+
+<div id="btn">btn</div>
+var btn = document.getElementById("btn");
+btn.onclick = function(){
+    alert(this.id); // 弹出btn
+}
