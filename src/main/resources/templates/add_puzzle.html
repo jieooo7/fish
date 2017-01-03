@@ -4,41 +4,175 @@
 <head th:include="head :: head">
 
 
-
 </head>
-
 <body>
-<script src="/js/inputGroup.js"></script>
+<!--<script src="/js/inputGroup.js"></script>-->
 <title>添加拼图和问题</title>
 <!--需要经过页面渲染,才会有csrf-->
-<form id="puzzle_form" th:action="@{/admin/add/puzzle}" class="form-inline" role="form">
+<form id="puzzle_form" th:action="@{/admin/add/puzzle}" class="form top_margin form-horizontal"
+      role="form">
     <!--<div class="form-group">-->
-        <!--<label class="sr-only" for="exampleInputEmail2">Email address</label>-->
-        <!--<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">-->
+    <!--<label class="sr-only" for="exampleInputEmail2">Email address</label>-->
+    <!--<input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter email">-->
     <!--</div>-->
-    <div id="puzzle">
-    <!--<div class="form-group">-->
-        <!--<div class="input-group">-->
-            <!--<div class="input-group-addon">@</div>-->
-            <!--<input class="form-control" type="email" placeholder="Enter email">-->
-        <!--</div>-->
-    <!--</div>-->
+    <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+
+    <div class="form-group">
+        <label for="file1" class="col-sm-2 control-label btn_top_margin">上传拼图文件</label>
+        <div class="col-sm-6">
+            <input type="file" class="form-control btn_top_margin" id="file1" name="file"
+            />
+        </div>
     </div>
-    <button type="submit" class="btn btn-default">Sign in</button>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+            <div id="puzzle">
+                <div  class="btn_top_margin">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼图名称</label>
+                    <div class="input-group">
+                        <input class="col-sm-6 form-control" type="text" placeholder="请输入拼图名称"
+                               name="puzzle_name"/>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼图描述</label>
+                    <div class="input-group">
+                        <input class="col-sm-6 form-control" type="text" placeholder="请输入拼图描述"
+                               name="puzzle_desc"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼图总数</label>
+                    <div class="input-group">
+                        <input class="col-sm-6 form-control" type="number" placeholder="请输入拼图总数"
+                               name="puzzle_num"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">中奖概率</label>
+                    <div class="input-group">
+                        <input class="col-sm-6 form-control" type="number" placeholder="请输入中奖概率"
+                               name="puzzle_score"/>
+                    </div>
+                </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4 add"></div>
+        <div class="col-xs-6 col-md-4 add"></div>
+    </div>
+
+    <div class="row">
+  <div class="col-xs-6 col-md-4 add"></div>
+  <div class="col-xs-6 col-md-4 add"></div>
+  <div class="col-xs-6 col-md-4 add"></div>
+</div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">拼图提交</button>
+</form>
+
+
+<form id="question_form" th:action="@{/admin/add/question}" class="form top_margin form-horizontal"
+      role="form">
+
+        <div id="question">
+
+            <div class="row">
+                <div class="col-xs-2 col-md-2"  style="text-align:center;vertical-align:middle;">
+                    <h1 class="question_title">问题</h1>
+
+                </div>
+                <div class="col-xs-10 col-md-10">
+
+
+                <!--<div  class="btn_top_margin">-->
+                    <div class="form-group btn_top_margin">
+                        <label class="col-sm-2 control-label">问题</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" placeholder="请输入问题"
+                                   name="question_name"/>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group btn_top_margin">
+                        <label class="col-sm-2 control-label">问题答案</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" placeholder="请输入答案,用 | 分隔 "
+                                   name="puzzle_desc"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group btn_top_margin">
+                        <label class="col-sm-2 control-label">正确答案</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" placeholder="请输入正确答案"
+                                   name="puzzle_num"/>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+
+
+
+
+        <!--</div>-->
+        <div class="question"></div>
+        <div class="question"></div>
+
+    <button type="submit" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">问题提交</button>
 </form>
 
 
 
 
+
+
+
 <script>
-        $(function() {
-            $('#puzzle').initInputGroup({
-                'widget' : 'div', //输入框组中间的空间类型
-                /*'add' : '添加',
-                'del' : '删除'*/
-            });
+
+
+    $(document).ready(function(){
+
+        var html=$('#puzzle').html();
+        $('div.add').append(html);
+
+        var html2=$('#question').html();
+        $('div.question').append(html2);
+        $('#question').css({"background":"#ff0000"});
+
+        var color=["#00ff00","#BFFF00"];
+        $('.question_title').each(function(index){
+            $(this).text($(this).text()+""+(index+1));
+
         });
-    </script>
+
+       $('div.question').each(function(index){
+            $(this).css({"background":color[index]});
+
+        });
+
+
+    });
+
+
+
+    function puzzle(){
+        
+        var form_puzzle=new FormData($('#puzzle_form'));
+
+        
+    }
+    
+</script>
 
 
 </body>

@@ -53,6 +53,7 @@ $(function() {
                 inputGroupAddon2 = $("<span class='input-group-btn'></span>");
             }
 
+
             //5.创建输入框组中最后面的操作按钮
             var addBtn = $("<button class='btn btn-default' type='button'>" + c.add + "</button>");
             addBtn.appendTo(inputGroupAddon2).on('click', function() {

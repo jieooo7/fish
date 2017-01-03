@@ -1,0 +1,167 @@
+window.setInterval(showalert, 3000);
+ function showalert()
+ {
+// window.location.reload();
+// window.onload = function(){}
+ document.getElementById('query_ticket').click(buy());
+ function buy(){
+
+ var i=0;
+ console.log("==="+i);
+       i++;
+    if(document.getElementById('YW_580000Z12604').innerText=="无"){
+        window.clearInterval() ;
+      window.open('http://zjdx1.sc.chinaz.com/Files/DownLoad/sound1/201610/7920.mp3');
+        document.getElementsByClassName('btn72')[0].click();
+
+  }
+
+ }
+}
+
+
+
+https://code.jquery.com/jquery-3.1.1.min.js
+在Chrome Console中加载jQuery
+
+var jq = document.createElement('script');
+jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js";
+document.getElementsByTagName('head')[0].appendChild(jq);
+jQuery.noConflict();
+
+
+
+
+var i=0;
+while (i<15)
+  {
+  console.log("==="+i);
+  i++;
+  }
+setInterval	周期性地调用一个函数(function)或者执行一段代码。
+clearInterval	取消掉用setInterval设置的重复执行动作。
+setTimeout	在指定的延迟时间之后调用一个函数或者执行一个代码片段。
+clearTimeout	方法可取消由 setTimeout() 方法设置的 timeout。
+setTimeout() 只执行 code 一次。如果要多次调用，请使用 setInterval() 或者让 code 自身再次调用 setTimeout()。
+setTimeout(code,millisec)
+在文档中添加点击事件。当用户在文档任何地方点击时，在 id="demo" 的 <p> 元素上输出 "Hello World"：
+  document.addEventListener("click", function(){
+      document.getElementById("demo").innerHTML = "Hello World";
+  });
+object.onclick=function(){SomeJavaScriptCode};
+
+ document.getElementById('query_ticket').addEventListener
+
+
+<script type="text/javascript">
+     window.onload=function(){
+            func1();
+            func2();
+            func3();
+    }
+</script>
+复制代码
+二、JQ方法
+
+1.整个页面的document全部加载完成以后执行。不幸的这种方式不仅要求页面的DOM tree全部加载完成，而且要求所有的外部图片和资源全部加载完成。更不幸的是，如果外部资源，例如图片需要很长时间来加载，那么这个js方法执行感觉就比较慢了。也就是说这是一种最严谨的页面加载完再执行方法的方法。
+window.onload = function() {
+     $("table tr:nth-child(even)").addClass("even"); //这个是jquery代码
+};
+2.仅只需要加载所有的DOM结构，在浏览器把所有的HTML放入DOM tree之前就执行方法。包括在加载外部图片和资源之前。
+$(document).ready(function() {
+     $("table tr:nth-child(even)").addClass("even");   // 任何需要执行的js特效
+});
+还有一种简写方式
+$(function() {
+    $("table tr:nth-child(even)").addClass("even");  // 任何需要执行的js特效
+});
+
+
+
+
+var btn = document.getElementById("btn");
+btn.onclick = function(){
+     alert("Clicked");
+};
+使用DOM0级方法指定的事件处理程序被认为是元素的方法，处理程序是在元素的作用域进行的，程序中this是引用的是当前元素。
+
+<div id="btn">btn</div>
+var btn = document.getElementById("btn");
+btn.onclick = function(){
+    alert(this.id); // 弹出btn
+}
+
+
+
+jQuery Ajax本质 XMLHttpRequest 或 ActiveXObject
+
+ jQuery.get(...)
+    所有参数：
+         url: 待载入页面的URL地址
+        data: 待发送 Key/value 参数。
+     success: 载入成功时回调函数。
+    dataType: 返回内容格式，xml, json,  script, text, html
+
+
+
+    jQuery.post(...)
+        所有参数：
+             url: 待载入页面的URL地址
+            data: 待发送 Key/value 参数
+         success: 载入成功时回调函数
+        dataType: 返回内容格式，xml, json,  script, text, html
+
+
+    jQuery.getJSON(...)
+        所有参数：
+             url: 待载入页面的URL地址
+            data: 待发送 Key/value 参数。
+         success: 载入成功时回调函数。
+
+
+    jQuery.getScript(...)
+        所有参数：
+             url: 待载入页面的URL地址
+            data: 待发送 Key/value 参数。
+         success: 载入成功时回调函数。
+
+
+    jQuery.ajax(...)
+        部分参数：
+            url：请求地址
+           type：请求方式，GET、POST（1.9.0之后用method）
+        headers：请求头
+           data：要发送的数据
+    contentType：即将发送信息至服务器的内容编码类型(默认: "application/x-www-form-urlencoded; charset=UTF-8")
+          async：是否异步
+        timeout：设置请求超时时间（毫秒）
+     beforeSend：发送请求前执行的函数(全局)
+       complete：完成之后执行的回调函数(全局)
+        success：成功之后执行的回调函数(全局)
+          error：失败之后执行的回调函数(全局)
+        accepts：通过请求头发送给服务器，告诉服务器当前客户端可接受的数据类型
+       dataType：将服务器端返回的数据转换成指定类型
+                       "xml": 将服务器端返回的内容转换成xml格式
+                      "text": 将服务器端返回的内容转换成普通文本格式
+                      "html": 将服务器端返回的内容转换成普通文本格式，在插入DOM中时，如果包含JavaScript标签，则会尝试去执行。
+                    "script": 尝试将返回值当作JavaScript去执行，然后再将服务器端返回的内容转换成普通文本格式
+                      "json": 将服务器端返回的内容转换成相应的JavaScript对象
+                     "jsonp": JSONP 格式
+                              使用 JSONP 形式调用函数时，如 "myurl?callback=?" jQuery 将自动替换 ? 为正确的函数名，以执行回调函数
+                              如果不指定，jQuery 将自动根据HTTP包MIME信息返回相应类型(an XML MIME type will yield XML, in 1.4 JSON will yield a JavaScript object, in 1.4 script willexecute the script, and anything else will be returned as a string)
+     converters： 转换器，将服务器端的内容根据指定的dataType转换类型，并传值给success回调函数
+
+                     $.ajax({
+                          accepts: {
+                            mycustomtype: 'application/x-some-custom-type'
+                          },
+                          // Expect a `mycustomtype` back from server
+                          dataType: 'mycustomtype'
+                          // Instructions for how to deserialize a `mycustomtype`
+                          converters: {
+                            'text mycustomtype': function(result) {
+                              // Do Stuff
+                              return newresult;
+                            }
+                          },
+                        });
