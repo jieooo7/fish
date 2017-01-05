@@ -8,9 +8,12 @@
 <body>
 <!--<script src="/js/inputGroup.js"></script>-->
 <title>添加拼图和问题</title>
+
+
+<div id="loading">Loading.....</div>
 <!--需要经过页面渲染,才会有csrf-->
 <form id="puzzle_form" th:action="@{/admin/add/puzzle}" class="form top_margin form-horizontal"
-      role="form">
+      role="form" enctype="multipart/form-data">
     <!--<div class="form-group">-->
     <!--<label class="sr-only" for="exampleInputEmail2">Email address</label>-->
     <!--<input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter email">-->
@@ -20,10 +23,11 @@
     <div class="form-group">
         <label for="file1" class="col-sm-2 control-label btn_top_margin">上传拼图文件</label>
         <div class="col-sm-6">
-            <input type="file" class="form-control btn_top_margin" id="file1" name="file"
+            <input type="file" class="form-control btn_top_margin" id="file1" name="puzzle_file"
             />
         </div>
     </div>
+    <input class="ad" type="hidden" name="ad_id" th:attr="value=${ad_id}"/>
 
     <div class="row">
         <div class="col-xs-6 col-md-4">
@@ -61,6 +65,14 @@
                                name="puzzle_score"/>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">单张拼图价值</label>
+                    <div class="input-group">
+                        <input class="col-sm-6 form-control" type="number" placeholder="请输入单张拼图价值"
+                               name="puzzle_value"/>
+                    </div>
+                </div>
                 </div>
 
 
@@ -75,12 +87,13 @@
   <div class="col-xs-6 col-md-4 add"></div>
   <div class="col-xs-6 col-md-4 add"></div>
 </div>
-    <button type="submit" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">拼图提交</button>
+    <button type="button" onclick="puzzle('#puzzle_form');" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">拼图提交</button>
 </form>
 
 
 <form id="question_form" th:action="@{/admin/add/question}" class="form top_margin form-horizontal"
       role="form">
+    <input class="ad" type="hidden" name="ad_id" th:attr="value=${ad_id}"/>
 
         <div id="question">
 
@@ -106,7 +119,7 @@
                         <label class="col-sm-2 control-label">问题答案</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" placeholder="请输入答案,用 | 分隔 "
-                                   name="puzzle_desc"/>
+                                   name="answer"/>
                         </div>
                     </div>
 
@@ -114,7 +127,7 @@
                         <label class="col-sm-2 control-label">正确答案</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" placeholder="请输入正确答案"
-                                   name="puzzle_num"/>
+                                   name="right_answer"/>
                         </div>
                     </div>
                 </div>
@@ -128,7 +141,7 @@
         <div class="question"></div>
         <div class="question"></div>
 
-    <button type="submit" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">问题提交</button>
+    <button type="button" onclick="puzzle('#question_form');" class="btn btn-primary btn-lg btn-block btn_top_margin" style="margin-bottom:50px;">问题提交</button>
 </form>
 
 
@@ -160,18 +173,62 @@
 
         });
 
+         $("#loading").hide();
 
+    $("#loading").ajaxStart(function(){
+        $(this).show();
+    });
+
+    $("#loading").ajaxStop(function(){
+        $(this).hide();
     });
 
 
+    });
+  // jQuery选择器 $(#id) 返回的是jquery对象，用document.getElementById( id )返回的是DOM对象。
+  //     （1）jquery对象可以使用两种方式转换为DOM对象， [ index ] 和 .get( index )
+  //                     $(#id)[0]   得到DOM对象
+  //                     $(#id).get( 0 )   -----》  DOM对象
+ 
+  //       （2）DOM对象转成jquery对象：
+  //                  $(DOM对象）
 
-    function puzzle(){
-        
-        var form_puzzle=new FormData($('#puzzle_form'));
 
+
+    function puzzle(id){
+
+        var form_puzzle=new FormData($(id)[0]);
+
+         $.ajax({
+                url:$(id).attr("action"),
+                type:"post",
+                data:form_puzzle,
+                cache: false,
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,  //告诉服务器从浏览器提交过来的数据格式
+                success:function(data){
+                    if(data!=-1){
+                        var result = jQuery.parseJSON(data);
+                    if(result.errorCode==0){
+                        alert("提交成功！");
+                    }else{
+                        alert("错误！！");
+                    }
+                    }
+                    
+                    
+                },
+                error:function(e){
+                    alert("错误！！");
+                    
+                }
+            });        
         
+
     }
-    
+
+
 </script>
 
 

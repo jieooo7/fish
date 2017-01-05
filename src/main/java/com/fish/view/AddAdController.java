@@ -1,14 +1,24 @@
 package com.fish.view;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fish.config.CommonData;
 import com.fish.controller.AdController;
 import com.fish.jpa.ad.AdRepository;
+import com.fish.jpa.ad.PuzzleRepository;
+import com.fish.jpa.ad.QuestionRepository;
 import com.fish.jpa.user.AdminRespository;
 import com.fish.jpa.user.UserRepository;
 import com.fish.model.entity.ad.Ad;
 import com.fish.model.entity.ad.Images;
 import com.fish.model.entity.ad.Videos;
+import com.fish.model.entity.puzzle.PuzzleCard;
+import com.fish.model.entity.question.Question;
 import com.fish.model.entity.user.AdminInfo;
+import com.fish.model.response.BaseModel;
+import com.fish.model.response.model.PuzzleModel;
 import com.fish.securety.AESHelper;
 import com.fish.securety.MD5;
 import com.fish.storage.FileSystemStorageService;
@@ -20,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.spring4.view.ThymeleafView;
 
@@ -63,6 +75,12 @@ public class AddAdController {
     private AdRepository repository;
 
     @Autowired
+    private PuzzleRepository puzzleRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
     private AdminRespository adminRespository;
 
     @Autowired
@@ -77,6 +95,8 @@ public class AddAdController {
     private StorageProperties properties;//用于设置存储文件目录,用两个store service 分别设置
 
     private final StorageService storageService=new FileSystemStorageService();
+
+    private final StorageService picStorageService=new FileSystemStorageService();
 
     private int adId=-1;
 
@@ -193,7 +213,7 @@ public class AddAdController {
         if(!video.isEmpty()){
             storageService.store(video);
             Videos video_model=new Videos();
-            video_model.setUrl("/files/"+storageService.getName());
+            video_model.setUrl("/videos/"+storageService.getName());
             video_model.setAd_id(ad);
             videos.add(video_model);
             ad.setVideo_num(videos.size());
@@ -231,23 +251,154 @@ public class AddAdController {
     public String add_puzzle(HttpServletRequest request,
                              @CookieValue(value = "JSESSIONID", defaultValue = "") String sessionId,
                              Model model){
-
+        HttpSession session =request.getSession();
+        model.addAttribute("ad_id",session.getAttribute(""+session.getAttribute(sessionId)));
 
         return "add_puzzle";
     }
 
 
-    @RequestMapping(value = "/admin/add/puzzle", method = RequestMethod.POST)
-    public String add_puzzle( @CookieValue(value = "uid", defaultValue = "-1") String uid){
 
-        return "";
+//    Exception                                   HTTP Status Code
+//    ConversionNotSupportedException             500 (Internal Server Error)
+//    HttpMediaTypeNotAcceptableException         406 (Not Acceptable)
+//    HttpMediaTypeNotSupportedException          415 (Unsupported Media Type)
+//    HttpMessageNotReadableException             400 (Bad Request)
+//    HttpMessageNotWritableException             500 (Internal Server Error)
+//    HttpRequestMethodNotSupportedException      405 (Method Not Allowed)
+//    MissingServletRequestParameterException     400 (Bad Request)
+//    NoSuchRequestHandlingMethodException        404 (Not Found)
+//    TypeMismatchException                       400 (Bad Request)
+
+    @ResponseBody
+    @RequestMapping(value = "/admin/add/puzzle", method = RequestMethod.POST)
+    public String add_puzzle( @CookieValue(value = "uid", defaultValue = "-1") String uid,
+                              @RequestParam(value = "ad_id", defaultValue = "") String ad_id,
+                              @RequestParam("puzzle_name") String[] names,
+                              @RequestParam("puzzle_desc") String[] puzzle_desc,
+                              @RequestParam("puzzle_num") String[] num,
+                              @RequestParam("puzzle_score") String[] score,
+                              @RequestParam("puzzle_value") String[] puzzle_value,
+                              @RequestParam("puzzle_file") MultipartFile file
+                              ){
+
+        if(uid.equals("-1")||ad_id.isEmpty()){
+            throw new HttpMessageNotReadableException("");
+        }
+
+        String pic_url="";
+        if(!file.isEmpty()){
+//            picStorageService.setDir(properties.getUpload());
+            picStorageService.store(file);
+            pic_url="/files/"+picStorageService.getName();
+        }
+        //use commit
+        for(int i=0;i<names.length;i++){
+            PuzzleCard puzzleCard=new PuzzleCard();
+            puzzleCard.setAdId(Integer.parseInt(ad_id));
+            puzzleCard.setPic_url(pic_url);
+            if(!names[i].isEmpty()){
+
+                puzzleCard.setCard_name(names[i]);
+            }
+
+            if(!puzzle_desc[i].isEmpty()){
+
+                puzzleCard.setCard_desc(puzzle_desc[i]);
+            }
+
+            puzzleCard.setSeq((byte)i);
+
+            if(!num[i].isEmpty()){
+
+                puzzleCard.setPic_total(""+num[i]);
+            }
+            if(!score[i].isEmpty()){
+
+                puzzleCard.setNumber(Integer.parseInt(score[i]));
+            }
+            if(!puzzle_value[i].isEmpty()){
+
+                puzzleCard.setValuetation(Integer.parseInt(puzzle_value[i]));
+            }
+            puzzleCard.setName(repository.findById(Integer.parseInt(ad_id)).getTitle());
+            puzzleCard.setCreate_time(new Timestamp(new java.util.Date().getTime()));
+
+            puzzleRepository.save(puzzleCard);
+
+
+        }
+
+        BaseModel model=new BaseModel();
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        String result="-1";
+        try {
+            result=mapper.writeValueAsString(model);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+        return result;
     }
 
-
+    @ResponseBody
     @RequestMapping(value = "/admin/add/question", method = RequestMethod.POST)
-    public String add_question( @CookieValue(value = "uid", defaultValue = "-1") String uid){
+    public String add_question( @CookieValue(value = "uid", defaultValue = "-1") String uid,
+                                @RequestParam(value = "ad_id", defaultValue = "") String ad_id,
+                                @RequestParam("question_name") String[] question_names,
+                                @RequestParam("answer") String[] answer,
+                                @RequestParam("right_answer") String[] right_answer
+                                ){
 
-        return "";
+        if(uid.equals("-1")||ad_id.isEmpty()){
+            throw new HttpMessageNotReadableException("");
+        }
+
+
+        for(int i=0;i<question_names.length;i++){
+
+            Question question=new Question();
+            question.setAdId(Integer.parseInt(ad_id));
+            question.setAnswer(answer[i]);
+            question.setRight_answer(right_answer[i]);
+            question.setTitle(repository.findById(Integer.parseInt(ad_id)).getTitle());
+
+            questionRepository.save(question);
+
+
+        }
+
+
+
+        BaseModel model=new BaseModel();
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        String result="-1";
+        try {
+            result=mapper.writeValueAsString(model);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 }
+
+
+//    public @ResponseBody String handleFileUpload(MultipartHttpServletRequest request){
+//        Iterator<String> iterator = request.getFileNames();
+//        while (iterator.hasNext()) {
+//            String fileName = iterator.next();
+//            MultipartFile multipartFile = request.getFile(fileName);
+//            byte[] file = multipartFile.getBytes();
+//            ...
+//        }
+//        ...
+//    }

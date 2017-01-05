@@ -5,6 +5,7 @@ import com.fish.jpa.user.AdminRespository;
 import com.fish.model.entity.user.AdminInfo;
 import com.fish.securety.AESHelper;
 import com.fish.storage.StorageFileNotFoundException;
+import com.fish.storage.StorageProperties;
 import com.fish.storage.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final StorageService videaStorageService;
 
 
     @Autowired
@@ -34,9 +36,13 @@ public class FileUploadController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private StorageProperties properties=new StorageProperties();
+
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService,StorageService videoStorageService) {
         this.storageService = storageService;
+        this.videaStorageService=videoStorageService;
+        this.videaStorageService.setDir(properties.getVideo());
     }
 
     @GetMapping("/test/upload")
@@ -63,6 +69,19 @@ public class FileUploadController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
                 .body(file);
     }
+
+    @GetMapping("/videos/{filename:.+}")//正则表示法,否则点号后面的会被截取
+    @ResponseBody
+    public ResponseEntity<Resource> serveVideo(@PathVariable String filename) {
+
+        Resource file = videaStorageService.loadAsResource(filename);
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
+                .body(file);
+    }
+
+
 
     @PostMapping("/test/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,

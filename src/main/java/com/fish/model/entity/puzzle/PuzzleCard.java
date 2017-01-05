@@ -18,11 +18,13 @@ import javax.persistence.Table;
 @Table( name = "card_category")
 public class PuzzleCard {
 
+
     private int id;
     private int adId;
     private int lava;//剩余多少张
     @JsonIgnore
     private int number;//剩余多少张
+    private int valuetation;//单张价值
     private byte seq;//序号
     private String name="";//广告名字
     private String card_desc="";//拼图的描述
@@ -44,6 +46,13 @@ public class PuzzleCard {
         return id;
     }
 
+    public int getValuetation() {
+        return valuetation;
+    }
+
+    public void setValuetation(int valuetation) {
+        this.valuetation = valuetation;
+    }
 
     public int getNumber() {
         return number;

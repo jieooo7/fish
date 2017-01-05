@@ -235,7 +235,7 @@ public class AdController {
                     puzzleModel.setValuation("1000");//估值
                     if (theAd != null) {
 
-                        puzzleModel.setTime("" + (theAd.getEnd_time().getTime() - theAd.getStart_time().getTime() / (24 * 60 * 60 * 1000)));
+                        puzzleModel.setTime((theAd.getEnd_time().getTime() - theAd.getStart_time().getTime() / (24 * 60 * 60 * 1000))+"");
                         puzzleModel.setTop_money(theAd.getTop_bonus() + "/" + theAd.getTop_bonus_people());
                     }
 
