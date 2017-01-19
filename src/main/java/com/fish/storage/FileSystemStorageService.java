@@ -29,19 +29,14 @@ public class FileSystemStorageService implements StorageService {
 
     private String name;
 
-    private StorageProperties properties=new StorageProperties();
+
 
     @Autowired
-    public FileSystemStorageService() {
-        this.rootLocation = Paths.get(properties.getUpload());
-    }
+    public FileSystemStorageService(StorageProperties properties) {
 
-//    @Autowired
-//    public FileSystemStorageService(StorageProperties properties) {
-//
-//        this.rootLocation = Paths.get(properties.getUpload());
-////        this.rootLocation = Paths.get("/home/thy/www/file/");
-//    }
+        this.rootLocation = Paths.get(properties.getUpload());
+//        this.rootLocation = Paths.get("/home/thy/www/file/");
+    }
 
     @Override
     public void store(MultipartFile file) {

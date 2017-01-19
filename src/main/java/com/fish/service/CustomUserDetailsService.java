@@ -34,6 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("not found");
         }
+//        GrantedAuthority，表示在应用范围内授予principal的权利许可。
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
@@ -41,3 +42,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 }
+//SecurityContextHolder，提供对 SecurityContext的访问
+//
+//        SecurityContext，维护了 Authentication 和可能的特定请求的安全信息
+//
+//        Authentication，以Spring Security的方式描述principal。
+//
+//        GrantedAuthority，表示在应用范围内授予principal的权利许可。
+//
+//
+//        UserDetailsService，用来根据传递的字符串形式的用户名(或者验证id等类似信息)来创建 UserDetails 对象。

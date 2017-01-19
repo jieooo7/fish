@@ -4,6 +4,7 @@ import com.fish.config.CommonData;
 import com.fish.jpa.user.AdminRespository;
 import com.fish.model.entity.user.AdminInfo;
 import com.fish.securety.AESHelper;
+import com.fish.storage.FileSystemStorageService;
 import com.fish.storage.StorageFileNotFoundException;
 import com.fish.storage.StorageProperties;
 import com.fish.storage.StorageService;
@@ -26,8 +27,10 @@ import java.util.stream.Collectors;
 @Controller
 public class FileUploadController {
 
-    private final StorageService storageService;
-    private final StorageService videaStorageService;
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private StorageService videaStorageService;
 
 
     @Autowired
@@ -36,14 +39,9 @@ public class FileUploadController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private StorageProperties properties=new StorageProperties();
-
     @Autowired
-    public FileUploadController(StorageService storageService,StorageService videoStorageService) {
-        this.storageService = storageService;
-        this.videaStorageService=videoStorageService;
-        this.videaStorageService.setDir(properties.getVideo());
-    }
+    private StorageProperties properties;
+
 
     @GetMapping("/test/upload")
     public String listUploadedFiles(Model model) throws IOException {
@@ -73,7 +71,7 @@ public class FileUploadController {
     @GetMapping("/videos/{filename:.+}")//正则表示法,否则点号后面的会被截取
     @ResponseBody
     public ResponseEntity<Resource> serveVideo(@PathVariable String filename) {
-
+        this.videaStorageService.setDir(properties.getVideo());
         Resource file = videaStorageService.loadAsResource(filename);
         return ResponseEntity
                 .ok()

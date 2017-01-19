@@ -7,6 +7,7 @@
         maxEntriesLocalHeap="200"
         timeToLiveSeconds="600">
     </cache>
+</ehcache>
 
     <!--
        name:缓存名称。
@@ -36,4 +37,3 @@
     <!--defaultCache元素是用来指定cache的默认配置的，其可以指定的信息大体上跟cache元素是一样的。-->
     <!--这些配置只会对在程序中通过CacheManager的addCache(String cacheName)方法添加的Cache起作用。-->
 
-</ehcache>

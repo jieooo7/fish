@@ -3,6 +3,7 @@ package com.fish.config;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;

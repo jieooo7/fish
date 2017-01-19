@@ -54,6 +54,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,6 +63,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import javassist.bytecode.BadBytecode;
 
 /**
  * Created by thy on 16-12-9.
@@ -90,17 +93,16 @@ public class AddAdController {
     @Autowired
     private BCryptPasswordEncoder bCrypt;
 
-
     @Autowired
     private StorageProperties properties;//用于设置存储文件目录,用两个store service 分别设置
 
-    private final StorageService storageService=new FileSystemStorageService();
+    @Autowired
+    private StorageService storageService;
 
-    private final StorageService picStorageService=new FileSystemStorageService();
+    @Autowired
+    private StorageService picStorageService;
 
     private int adId=-1;
-
-
 
 
     @RequestMapping("/admin/add/add_ads")
@@ -172,7 +174,6 @@ public class AddAdController {
 //        BigDecimal a=new BigDecimal(12.88);
 //        int b=a.intValue();
 
-        this.storageService.setDir(properties.getVideo());
         AdminInfo admin = adminRespository.findById(Integer.parseInt(AESHelper.decrypt(uid, CommonData.ENCRYPT_KEY)));
         if(admin==null){
             return "redirect:/logout";
@@ -288,7 +289,7 @@ public class AddAdController {
 
         String pic_url="";
         if(!file.isEmpty()){
-//            picStorageService.setDir(properties.getUpload());
+            picStorageService.setDir(properties.getUpload());
             picStorageService.store(file);
             pic_url="/files/"+picStorageService.getName();
         }
@@ -345,6 +346,8 @@ public class AddAdController {
         return result;
     }
 
+
+
     @ResponseBody
     @RequestMapping(value = "/admin/add/question", method = RequestMethod.POST)
     public String add_question( @CookieValue(value = "uid", defaultValue = "-1") String uid,
@@ -357,7 +360,6 @@ public class AddAdController {
         if(uid.equals("-1")||ad_id.isEmpty()){
             throw new HttpMessageNotReadableException("");
         }
-
 
         for(int i=0;i<question_names.length;i++){
 

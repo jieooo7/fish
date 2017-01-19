@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/api/**","/files/**","/test/**").permitAll() //antMatchers(HttpMethod method, String... antPatterns)
+                .antMatchers("/", "/api/**","/files/**","/test/**","/videos/**").permitAll() //antMatchers(HttpMethod method, String... antPatterns)
                 .anyRequest().authenticated()//authenticated()表示允许用户访问
                 .and()
                 .formLogin()
@@ -132,3 +132,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 // only used to build a "local" AuthenticationManager, which is a child of the global one.
 // In a Spring Boot application you can @Autowired the global one into another bean,
 // but you can’t do that with the local one unless you explicitly expose it yourself.
+
+
+//http
+//        .authorizeRequests()                                                                1
+//        .antMatchers("/resources/**", "/signup", "/about").permitAll()                  2
+//        .antMatchers("/admin/**").hasRole("ADMIN")                                      3   设置role
+//        .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")            4   表达式设置role
+//        .anyRequest().authenticated()                                                   5
+//        .and()
+//        // ...
+//        .formLogin();
+
+//    可以配置多个 HttpSecurity 实例
+//    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//if (principal instanceof UserDetails) {
+//        String username = ((UserDetails)principal).getUsername();  获取当前用户信息
+//        } else {
+//        String username = principal.toString();
+//        }
