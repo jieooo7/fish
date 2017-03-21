@@ -102,8 +102,7 @@ public class AddAdController {
     @Autowired
     private StorageService picStorageService;
 
-    private int adId=-1;
-
+//多线程环境,尽量少用成员变量,多用局部变量
 
     @RequestMapping("/admin/add/add_ads")
 //    @PreAuthorize(“authenticated and hasPermission(‘hello’, ‘view’)”)表示只有当前已登录的并且拥有(“hello”, “view”)权限的用户才能访问此页面
@@ -212,6 +211,7 @@ public class AddAdController {
             ad.setVideo_num(videos.size());
         }
         if(!video.isEmpty()){
+            storageService.setDir(properties.getVideo());
             storageService.store(video);
             Videos video_model=new Videos();
             video_model.setUrl("/videos/"+storageService.getName());
@@ -236,10 +236,9 @@ public class AddAdController {
         ad.setAuthor_name(admin.getNick_name());
         ad.setAuthor_pic(admin.getHead_pic());
         repository.save(ad);
-        adId=ad.getId();
 
         HttpSession session =request.getSession();
-        session.setAttribute(""+session.getAttribute(sessionId),adId);
+        session.setAttribute(""+session.getAttribute(sessionId),ad.getId());
 
 //        log.info("=================id"+session.getAttribute(""+session.getAttribute(sessionId)));
 

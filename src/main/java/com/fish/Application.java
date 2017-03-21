@@ -44,7 +44,6 @@ public class Application {
 
     public static void main(String[] args) {
 
-//        System.setProperty("spring.devtools.restart.enabled", "true");
 
         SpringApplication.run(Application.class, args);
     }
@@ -123,3 +122,5 @@ public class Application {
 //    }
 
 }
+//    RestTemplate restTemplate = new RestTemplate();
+//    Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);

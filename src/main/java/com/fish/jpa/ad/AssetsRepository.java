@@ -15,4 +15,7 @@ public interface AssetsRepository extends CrudRepository<AssetsDetail, Long> {
 
     List<AssetsDetail> findByUserInfoOrderByValuationDesc(int uid);
 
+//    @Query("select t.id, t.name from Test t") 返回对象数组
+//    public List<Object[]> findSimpleTest()
+
 }

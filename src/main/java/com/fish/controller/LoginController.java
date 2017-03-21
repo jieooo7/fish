@@ -2,6 +2,7 @@ package com.fish.controller;
 
 import com.fish.config.CommonData;
 import com.fish.config.ErrorCode;
+import com.fish.jpa.ad.AdRepository;
 import com.fish.jpa.user.UserRepository;
 import com.fish.model.response.BaseModel;
 import com.fish.model.entity.user.UserInfo;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +44,9 @@ public class LoginController {
     private UserRepository repository;
 
     @Autowired
+    private AdRepository adRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCrypt;
 
     //    value="/add_dev", method= RequestMethod.POST
@@ -52,7 +57,13 @@ public class LoginController {
 
 
         BaseModel<UserInfo> baseModel = new BaseModel<UserInfo>();
+        if (tel.isEmpty()||passwd.isEmpty()){
+            baseModel.setErrorCode(ErrorCode.EMPTY_INPUT);
+            baseModel.setMsg("账号或密码不能为空");
+            return baseModel;
+        }
         UserInfo userInfo = null;
+
         if (isTel(tel)) {//判断是不是电话
             userInfo = repository.findByTel(tel);
         } else if (isEmail(tel)) {
@@ -65,7 +76,7 @@ public class LoginController {
         if (userInfo == null || !bCrypt.matches(passwd,userInfo.getPasswd())) {
             baseModel.setErrorCode(ErrorCode.PASSWD_ERROR);
             baseModel.setMsg("账号或密码错误");
-//            return baseModel;
+            return baseModel;
         } else {
             baseModel.setErrorCode(ErrorCode.OK);
             baseModel.setMsg("");
@@ -80,11 +91,10 @@ public class LoginController {
             userInfo.setAuth_key(authValue);
 
             baseModel.setData(userInfo);
-//            return baseModel;
+            return baseModel;
 
         }
 
-        return baseModel;
 
 
     }
@@ -93,11 +103,13 @@ public class LoginController {
     @RequestMapping("/api/register")
     public BaseModel register(@RequestParam(value = "name", defaultValue = "") String name,
                               @RequestParam(value = "tel", defaultValue = "") String tel,
-                              @RequestParam(value = "pass", defaultValue = "") String pass,
+                              @RequestParam(value = "passwd", defaultValue = "") String pass,
                               @RequestParam(value = "email", defaultValue = "") String email) {
 //        HttpServletRequest request;
 //        HttpServletResponse response;
 //        HttpHeaders
+
+//        验证唯一性约束,查看是否重复,多一次查询
         try {
             UserInfo user = new UserInfo();
             user.setName(name);
@@ -115,7 +127,8 @@ public class LoginController {
 
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            return new BaseModel(ErrorCode.DATABASEERROR, e.getMessage(), null);
+            return new BaseModel(ErrorCode.DATABASEERROR,"", null);
+//            e.getMessage()
         }
 
 
@@ -131,6 +144,14 @@ public class LoginController {
         stringRedisTemplate.opsForValue().set("aaa", "111");
         stringRedisTemplate.expire("aaa", 180L, TimeUnit.SECONDS);
         return stringRedisTemplate.opsForValue().get("aaa");
+    }
+
+
+    @RequestMapping("/api/test")
+    public List<Object[]> test() {
+        return adRepository.findAFR(16);
+
+//        return ""+repository.findByTel("18064486666").getRegister_time();
     }
 
 

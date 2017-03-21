@@ -13,4 +13,6 @@ import java.util.List;
 public interface ImageRepository extends CrudRepository<Images, Long> {
 
     List<Images> findById(int id);
+
+
 }

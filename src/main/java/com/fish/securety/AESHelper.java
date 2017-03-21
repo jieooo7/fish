@@ -1,8 +1,13 @@
 package com.fish.securety;
 
+import com.fish.controller.LoginController;
+import com.fish.jpa.user.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +19,7 @@ public class AESHelper {
 
     /** 算法/模式/填充 **/
     private static final String CipherMode = "AES/ECB/PKCS5Padding";
+
 
     /** 创建密钥 **/
     private static SecretKeySpec createKey(String password) {
@@ -130,10 +136,9 @@ public class AESHelper {
     }
 
     public static void main(String args[]) throws Exception {
-
         BCryptPasswordEncoder bp=new BCryptPasswordEncoder();
-
-        System.out.println(bp.encode("e10adc3949ba59abbe56e057f20f883e"));
+        System.out.println(""+new java.util.Date().getTime());
+        System.out.println(""+new Timestamp(new java.util.Date().getTime()).getTime());
 
         String html="        <p>请输入内容...<img src=\"/files/2d6cbbdcd0bf584699d5b4506711d81a\" alt=\"8ABF8049F3BFB42B3FEFA6B8C733AE81\" style=\"max-width: 100%;\">" +
                 "<br><img src=\"/files/ecf0c4df99298daaad49333b661fea62\" alt=\"F72D72067210E8CAA460736FD35AE2AE\" style=\"max-width: 100%;\"></p>\n" +

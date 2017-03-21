@@ -32,3 +32,25 @@ public class BlogProperties {
         this.title = title;
     }
 }
+
+
+//使用@PropertySource引入配置文件
+//@Configuration
+//@PropertySource(value = "classpath:/redis.properties")
+//@EnableCaching
+//public class CacheConfig extends CachingConfigurerSupport {
+//    ......
+//}
+//使用@Value引用属性值
+//@Configuration
+//@PropertySource(value = "classpath:/redis.properties")
+//@EnableCaching
+//public class CacheConfig extends CachingConfigurerSupport {
+//    @Value("${spring.redis.host}")
+//    private String host;
+//    @Value("${spring.redis.port}")
+//    private int port;
+//    @Value("${spring.redis.timeout}")
+//    private int timeout;
+//    ......
+//}

@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -19,6 +20,13 @@ public interface AdRepository extends PagingAndSortingRepository<Ad, Long> {
 //    @Cacheable(key = "#pwId", value = { "pwId" })
     Page<Ad> findAll(Pageable pageable);
     Ad findById(int id);
+
+    @Query(value = "select a.id as aid ,a.title as titles from ad a where a.id =?1",nativeQuery = true)
+    List<Object[]> findAFR(int id);
+
+//    @Query("select u.id, LENGTH(u.firstname) as fn_len from User u where u.lastname like ?1%")
+//    List<Object[]> findByAsArrayAndSort(String lastname, Sort sort);
+
 
 
 //    需要注意的是当一个支持缓存的方法在对象内部被调用时是不会触发缓存功能的

@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
 //                .rememberMeParameter("remeber-me")//默认为remeber-me ,可自定义
-                .tokenValiditySeconds(1209600);;
+                .tokenValiditySeconds(1209600);
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -152,3 +152,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        } else {
 //        String username = principal.toString();
 //        }
+
+
+//    @RequestMapping(value = "/helloadmin", method=RequestMethod.GET)
+//    @PreAuthorize("hasAnyRole('admin')")
+//    public String helloAdmin(){
+//        return "helloAdmin";
+//    }
+//
+//    @RequestMapping(value = "/hellouser", method=RequestMethod.GET)
+//    @PreAuthorize("hasAnyRole('admin', 'user')")
+//    public String helloUser(){
+//        return "helloUser";
+//    }
