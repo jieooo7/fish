@@ -1,6 +1,5 @@
 package com.fish.jpa.ad;
 
-import com.fish.model.entity.ad.AdCollect;
 import com.fish.model.entity.ad.AdNotice;
 
 import org.springframework.data.repository.CrudRepository;

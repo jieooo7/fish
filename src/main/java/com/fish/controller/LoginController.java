@@ -3,11 +3,11 @@ package com.fish.controller;
 import com.fish.config.CommonData;
 import com.fish.config.ErrorCode;
 import com.fish.jpa.ad.AdRepository;
+import com.fish.test.PartPara;
 import com.fish.jpa.user.UserRepository;
 import com.fish.model.response.BaseModel;
 import com.fish.model.entity.user.UserInfo;
 import com.fish.securety.AESHelper;
-import com.fish.securety.MD5;
 import com.fish.util.CodeGenetate;
 
 import org.slf4j.Logger;
@@ -15,15 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -148,7 +145,7 @@ public class LoginController {
 
 
     @RequestMapping("/api/test")
-    public List<Object[]> test() {
+    public List<PartPara> test() {
         return adRepository.findAFR(16);
 
 //        return ""+repository.findByTel("18064486666").getRegister_time();

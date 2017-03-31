@@ -1,13 +1,12 @@
 package com.fish.jpa.ad;
 
 import com.fish.model.entity.ad.Ad;
+import com.fish.test.PartPara;
 
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
@@ -22,7 +21,9 @@ public interface AdRepository extends PagingAndSortingRepository<Ad, Long> {
     Ad findById(int id);
 
     @Query(value = "select a.id as aid ,a.title as titles from ad a where a.id =?1",nativeQuery = true)
-    List<Object[]> findAFR(int id);
+    List<PartPara> findAFR(int id);//返回定义的
+
+//    List<Object[]> findAFR(int id);返回对象数组
 
 //    @Query("select u.id, LENGTH(u.firstname) as fn_len from User u where u.lastname like ?1%")
 //    List<Object[]> findByAsArrayAndSort(String lastname, Sort sort);
